@@ -1,6 +1,6 @@
 ---
 layout: post-list
-title: All Posts
-excerpt: "A List of Posts"
+title: Real Talk with Real Tech
+excerpt: "All Blog Posts"
 comments: false
 ---

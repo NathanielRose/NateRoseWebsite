@@ -1,14 +1,14 @@
 # Site
-title:              Moon
-bio:                'Minimal, one column jekyll theme.'
-description:        "Moon is a minimal, one column jekyll theme for your blog."
+title:              Nate Rose
+bio:                'Beyond the walls of intelligence, life is defined'
+description:        "Musician turned Developer - building code that matters"
 reading_time:       true
 words_per_minute:   200
-logo:               'assets/img/logo.png'
-background:         'assets/img/placeholder-big.jpg'
+logo:               'assets/img/Headshot.jpg'
+background:         'assets/img/cinqueterre.jpg'
 tiled_bg:           false   # Set this true if you want to tile your background image, otherwise it will be covered
 locale:             en_US
-url:                https://taylantatli.github.io/Moon
+#url:                https://taylantatli.github.io/Moon
 
 # Jekyll
 permalink:          /:title/
@@ -26,10 +26,10 @@ sass:
   style:            compressed
 
 # Comments
-disqus_shortname:   taylantatli
+disqus_shortname:   naterose
 
 # Social
-# if you don't have any of social below, comment the line.
+# if you don't have any of the social below, comment the line.
 #google:
   #plus:            #username
   #analytics:
@@ -42,12 +42,12 @@ twitter:            naterose2
 #facebook:           username
 github-url:         nathanielrose
 #stackoverflow:     123456/username   from a "http://stackoverflow.com/users/123456/username" link
-#linkedin:          username
+linkedin:          nathanielrose
 #xing:              username
 instagram:          seeing_soundz
 #lastfm:            username
 #tumblr:            username
-#medium:            '@username'
+medium:            '@naterose'
 #pinterest:         username
 #foursquare:        username
 #steam:              username
@@ -68,6 +68,7 @@ gems:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-gist
+  - jemoji
 
 jekyll-mentions:
     base_url: https://github.com

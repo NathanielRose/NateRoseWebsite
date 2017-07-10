@@ -1,4 +1,9 @@
 # Site navigation links
+# These navigation links will add tabs to your site
 
-- title: Projects
-  url: /projects/
+#- title: Projects
+#  url: /projects/
+
+- title: CV
+  url: /assets/NathanielRose_CV.pdf
+

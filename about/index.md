@@ -1,8 +1,8 @@
 ---
 layout: page
-title: About the Theme
-tags: [about, Jekyll, theme, moon]
-date: 2016-03-21
+title: About Nate Rose
+tags: [about, Nate Rose, life]
+date: 2017-07-01
 comments: false
 ---
     
@@ -20,6 +20,24 @@ comments: false
 * Simple navigation menu
 * MathJax support
 
+<script
+  src="https://cdn.rawgit.com/IonicaBizau/github-calendar/gh-pages/dist/github-calendar.min.js"
+></script>
+
+<link
+  rel="stylesheet"
+  href="https://cdn.rawgit.com/IonicaBizau/github-calendar/gh-pages/dist/github-calendar.css"
+/>
+
+<div class="calendar">
+    <!-- Loading stuff -->
+    Loading the data just for you.
+</div>
+
+<script>
+    GitHubCalendar(".calendar", "nathanielrose");
+</script>
+
 ## Preview
 
 {% capture images %}
@@ -34,4 +52,4 @@ See a [live version of Moon](http://taylantatli.github.io/Moon) hosted on GitHub
 
 To learn how to install and use this theme check out the [Setup Guide](http://taylantatli.me/Moon/moon-theme/) for more information.
       
-[Install Moon](https://github.com/TaylanTatli/Moon){: .btn}
+[Contact Me](https://twitter.com/naterose2){: .btn}
