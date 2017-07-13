@@ -6,10 +6,10 @@ FROM jekyll/jekyll
 EXPOSE  4000
 
 # Make a directory for out application
-RUN mkdir \app
+WORKDIR  /app
 
 # Copy local files to our app directory 
-ADD . /home 
+COPY . /app
 
 
 CMD ["jekyll", "serve", "--force_polling", "-s", "./"]
