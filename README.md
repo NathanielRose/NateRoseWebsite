@@ -14,7 +14,7 @@ Before starting my search, I had a few requirements going in...
 
 To condense several hours worth of ~~Googling~~ *Binging*, I made this quick chart of how I landed on using Jekyll as my blog framework.
 
- > **Note** - Had issues with ghost and didnt bother to really see why I was getting an error just for signing up with the service. Left a bad taste in my mouth so... I'll pass. [See Here](assets\img\github_readme\ghosterror.png)
+ > **Note** - Had issues with ghost and didnt bother to really see why I was getting an error just for signing up with the service. Left a bad taste in my mouth so... I'll pass. [See Here](https://natewebsite.blob.core.windows.net/github-readme/ghosterror.png)
 
 
 ## Getting Started with Jekyll
@@ -88,6 +88,7 @@ Inside the `_data/navigation.yml` See below on how to add custom tabs to the nav
  title: Resume
   url: /assets/NathanielRose_CV.pdf
 ```
+---
 
 ## Running your Jekyll site in a Docker Container
 
@@ -151,7 +152,7 @@ Configuration file: ./_config.yml
   ```
 Navigate to that ip address and you will see your site running.
 
-<img src="assets\img\github_readme\localdocker.png" width="700">
+<img src="https://natewebsite.blob.core.windows.net/github-readme/localdocker.PNG" width="700">
 
 Use ctrl-c to return back to the powershell line.
 
@@ -189,10 +190,10 @@ For **Repository Access**, select Public.
 
 Enter your image name and click **Save**.
 
-<img src="assets\img\github_readme\dockerhubsetting.png" width="500">
+<img src="https://natewebsite.blob.core.windows.net/github-readme/dockerhubsetting.PNG" width="500">
 
 Follow this [tutorial](https://docs.microsoft.com/en-us/azure/app-service-web/app-service-linux-ci-cd) and add a WebHook to your jekyll repo using your Web App publish profile. This will trigger your App service to restart when a new image is pushed.
 
 In addition, be sure your app service has an Application Setting similar to below.
 
-<img src="assets\img\github_readme\appsettings.png" width="700">
+<img src="https://natewebsite.blob.core.windows.net/github-readme/appsettings.PNG" width="700">
