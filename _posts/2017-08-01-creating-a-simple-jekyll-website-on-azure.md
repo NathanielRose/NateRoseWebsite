@@ -1,3 +1,16 @@
+---
+layout: post
+title:  "Jekyll Blog Website on Azure App Services"
+date:   2017-08-01
+excerpt: "So I was searching around the internet for the best way to make a simple website for technical blogging. I want to start sharing learnings and experiences with certain frameworks and projects with the community to get constructive open conversations."
+tag:
+- azure 
+- jekyll
+- blogs
+- docker
+- app services
+comments: true
+---
 # Jekyll Blog Website on Azure App Services 
   
     

@@ -9,7 +9,6 @@ comments: false
 <center><b>Currently:</b> Commercial Software Developer II at <a href="https://microsoft.com">Microsoft</a>. I focus on Cloud SaaS Applications, MicroServices and Big Data Solutions.</center>
 
 ## Things I Do
-* **Minimal**, you can focus on your content
 * **Research & Studies:** <a href="mailto:nmrose@berkeley.edu">NeuroTechnology & Data Science</a> 
 * **Motorcycling:** 2012 Triumph Bonneville T100 
 * **Music:** Alto Sax-Yamaha YAS-23 
