@@ -173,7 +173,7 @@ Navigate to that ip address and you will see your site running.
 
 Use ctrl-c to return back to the powershell line.
 
-To remove the container  run the `docker images` command to get the `Container ID`.
+To remove the container & image  run the `docker images` command to get the `image ID`. Also run the `docker container list` command for the `container ID`
 
 Then run the following commands to remove the container and image from your environment.
 

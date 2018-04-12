@@ -14,15 +14,15 @@ comments: true
 # Using Azure Logic Apps for API Integration and Continuous Deployment
   
     
-Say you have a website, and you post new content (Blogs, Videos, Photos, Products) on it every so often. In order for you to get more hits on the page your content is on, you share that content via social media like Twitter, Instagram, Facebook etc. There's a good amount of integrators that allow you to post content to all social media platforms like Hootsuite, Buffer & Sprout.
+Say you have a website, and you post new content (Blogs, Videos, Photos, Products) on it every so often. In order for you to get more hits on the page your content is on, you share that content via social media like Twitter, Instagram, Facebook etc. There's a good amount of integrators that allow you to post content to all social media platforms autonomously like Hootsuite, Buffer & Sprout.
 
 Those are great when you want to post solely through the integration platforms to your social media accounts. But what if you host your own website and require integration that is triggered when new content is uploaded to your site directory?
 
-This is where triggered SaaS solutions like [IFTTT](https://ifttt.com/) and [Azure Logic Apps](https://azure.microsoft.com/en-us/services/logic-apps/) are pretty useful. You can use FTP triggers that are initiated when content is uploaded to your site directory and invoke a process of actions that target social media platforms or other things. The benefit here, is that you dont need to manage how the API integration points connect, the solution manages that for you. In this example I use Azure Logic Apps to trigger a process that pushes blog posts written in markdown to Medium. I chose Azure Logic Apps since my jekyll blog site is hosted there (see my previous post).
+This is where triggered SaaS solutions like [IFTTT](https://ifttt.com/) and [Azure Logic Apps](https://azure.microsoft.com/en-us/services/logic-apps/) are pretty useful. You can use FTP triggers that are initiated when content is uploaded to your site directory and invoke a process of actions that target social media platforms or other things. The benefit here, is that you dont need to manage how the API integration points connect, the solution manages that for you. In this example I use Azure Logic Apps to trigger a process that pushes blog posts written in markdown to Medium. I chose Azure Logic Apps since my jekyll blog site is hosted there [see my previous post](http://www.naterose.io/creating-a-simple-jekyll-website-on-azure/).
 
 ## Basic Logic App Template - Instagram to Twitter
 
-To get you familiar with the Logic App Designer, lets use one of the templates to set up a simple triggered pipe of API actions. Select the Post tweet for new Instagram Posts template. You will be promoted to authorize  Azure to have access to you Twitter & Instagram accounts. Sign In to your accounts.
+To get you familiar with the Logic App Designer, lets use one of the templates to set up a simple triggered pipe of API actions. Select the Post tweet for new Instagram Posts template. You will be prompted to authorize Azure to have access to your Twitter & Instagram accounts. Sign In to your accounts.
 
 <img src="https://natewebsite.blob.core.windows.net/post5/img1.png" width="300">
 
@@ -36,7 +36,7 @@ The template is pretty self explanatory but here are a few things to note:
 
 ## Trigger Logic Apps via FTP from Jekyll Site
 
-My Jekyll site is hosted using Azure Web Apps on Linux. To upload a new post, I simply add a new md file in the `_posts` directory. We want to be able to publish a new Medium story every time I upload a post. To start lets create a trigger that is invoked anytime a file is added to my site.
+My Jekyll site is hosted using Azure Web Apps on Linux. To upload a new post, I simply add a new md file in the `_posts` directory. I want to be able to publish a new Medium story every time I upload a post. To start lets create a trigger that is invoked anytime a file is added to my site.
 
 Create a new Logic App.
 
@@ -61,7 +61,7 @@ Select POST as the Method and your new requestb.in URL for the Uri field. For th
 
 <img src="https://natewebsite.blob.core.windows.net/post5/img3.png" width="500">
 
-Now we need to test our trigger. You can do this by simply uploading a new file to the site or cp the contents of an existing file as a new name in the directory.
+Now we need to test our trigger. You can do this by simply uploading a new file to the site or `cp` the contents of an existing file as a new name in the directory.
 * Navigate to your Linux Web App for your Site.
 * In the App Service Tabs select **Advanced Tools** under the Development Tools category.
 * Click **Go** to navigate
@@ -73,17 +73,17 @@ Once you have triggered the logic app you will see the success status displayed 
 
 ## Using Azure Functions with your Logic App
 
-When we return back to the designer we can select our next action to be post a Medium Story. Unfortunately, the connector only accepts the story to be in HTML format.
+When we return back to the designer we can select our next action to be **Write a Medium Story**. Unfortunately, the connector only accepts the story to be in HTML format.
 
 <img src="https://natewebsite.blob.core.windows.net/post5/img7.PNG" width="500">
 
-So we need to create some quick code that converts our mark down file to HTML for the medium connector to push to their API for a new story.
+So we'll have to create some quick code that converts our mark down file to HTML for the medium connector to push to their API for publishing a new story.
 
-We'll create a function app which is serverless code that runs on cloud VMs managed completely by a cloud service provider.
+We'll create a **function app** to do this. A Function in Azure is serverless code that runs on cloud VMs managed completely by a cloud service provider.You add your code, libraries and classes, the cloud infrastructure will handle the scaling of that code.
 
-Lets go ahead and create an Azure Function App through the portal. Be sure to uniquely name your function, add it to your existing resource group, and target a hosting plan for it to be added to.
+Lets go ahead and create an Azure Function App through the portal. Be sure to uniquely name your function, place it in your existing resource group, and target a hosting plan for it to be added to.
 
-Once the Azure Function has been successfully deployed, we will create a new HTTP Triggred function app in C#.
+Once the Azure Function has been successfully deployed, we will create a new HTTP Triggered function app in C#.
 
 <img src="https://natewebsite.blob.core.windows.net/post5/img11.png" width="500">
 
@@ -91,7 +91,7 @@ For our Markdown to HTML conversion we'll use the [CommonMark.NET](https://githu
 
 Create a project.json file by selecting the *View Files* tab to the right. Then select **+Add** and name your file `project.json`.
 
-Use this code for your JSON.
+Use this code for your JSO file.
 ``` json
 {
     "frameworks": {
@@ -191,11 +191,11 @@ Finally the next Action we add is the **Medium Write a Story**.
 
 Add the Parse JSON Dynamic Property `post` for the `Content (as html)` property. Also add the Parse JSON Dynamic Property `title` for the `Title` property on the Medium Action
 
-Be sure to witch the Publish Status to **Draft** as well.
+Be sure to switch the Publish Status to **Draft** as well.
 
 <img src="https://natewebsite.blob.core.windows.net/post5/img14.PNG" width="500">
 
-If you'd like to also add an alert to this Logic App Flow to notify you when a post has been drafted and ready to review, Add a **Send Email** Action with the Medium properties for you to easily navigate to the draft and make necessary edits before submitting publicly.
+If you'd like to also add an alert to this Logic App Flow to notify you when a post has been drafted and pending review, Add a **Send Email** Action with the Medium properties for you to easily navigate to the draft and make necessary edits before submitting publicly.
 
 <img src="https://natewebsite.blob.core.windows.net/post5/img15.png" width="500">
 
@@ -217,3 +217,4 @@ Navigate to the post URL and you will see the drafted post that was triggered fr
 * **Pass a path to the File instead of the content:** HTTP post max size limit depends on the server configuration. If you have a rather long post, or to avoid data leakage, pass the file path into the Function App. Use an FTP connection from the function to access the file as an input and store the converted file to a blob output. Use this new file to pass the contents to the Medium Action connector.
 * **Extract the tags:** Similar to what we did with the post title, collect the tags from the post using some regex expression and pass that to your Medium action.
 * **Medium Connector Preview:** This API connector is in preview, eventually the framework will get to a point that you can simply pass an html for your new post and the Medium post is auto-generated.
+* **Request Bin has been discontinued:** Earlier in the post, I used request bin to use for validating the request body from logic app applications. You can easily switch this out with any other dump server that echoes HTTP posts. I used  [Post Test Server](http://ptsv2.com/) for my dump.
