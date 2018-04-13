@@ -28,7 +28,7 @@ To get you familiar with the Logic App Designer, lets use one of the templates t
 
 The template is pretty self explanatory but here are a few things to note:
 
-* The Instagram upload post trigger can me configured to customize the interval of how often the API is checked for new content.
+* The Instagram upload post trigger can be configured to customize the interval of how often the API is checked for new content.
 * The GET request that contains the content from your post has additional fields pertaining to your post that can be used for what ever you're looking to do.
     * I.E. User Info, Height of Image, Media ID, List of tags etc.
 
@@ -81,7 +81,7 @@ So we'll have to create some quick code that converts our mark down file to HTML
 
 We'll create a **function app** to do this. A Function in Azure is serverless code that runs on cloud VMs managed completely by a cloud service provider.You add your code, libraries and classes, the cloud infrastructure will handle the scaling of that code.
 
-Lets go ahead and create an Azure Function App through the portal. Be sure to uniquely name your function, place it in your existing resource group, and target a hosting plan for it to be added to.
+Let's go ahead and create an Azure Function App through the portal. Be sure to uniquely name your function, place it in your existing resource group, and target a hosting plan for it to be added to.
 
 Once the Azure Function has been successfully deployed, we will create a new HTTP Triggered function app in C#.
 
@@ -169,7 +169,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 }
 ```
 
-Azure Functions allow us to test the function as well through the UI. On the right side ot the window select the **Test** tab and enter your sample markdown file in the `request body`. Run your function and you will see the Output and status code at the bottom of the Test window.
+Azure Functions allow us to test the function as well through the UI. On the right side of the window select the **Test** tab and enter your sample markdown file in the `request body`. Run your function and you will see the Output and status code at the bottom of the Test window.
 
 <img src="https://natewebsite.blob.core.windows.net/post5/img12.PNG" width="500">
 
