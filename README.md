@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e453a4ed-59b4-4454-b2ce-ab5e423a1c2d/deploy-status)](https://app.netlify.com/sites/naterose/deploys)
+
 # Jekyll Blog Website on Azure App Services 
   
     
