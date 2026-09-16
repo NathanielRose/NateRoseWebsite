@@ -3,3 +3,13 @@ _site/
 .jekyll-metadata
 Gemfile.lock
 *.gem
+
+# Bundler / Ruby toolchain (the old Jekyll build)
+vendor/
+.bundle/
+
+# Claude Code workspace
+.claude/
+
+# Windows / OneDrive folder metadata
+desktop.ini

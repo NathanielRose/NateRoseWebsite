@@ -1,0 +1,12 @@
+---
+import Base from '../../layouts/Base.astro';
+import Entry from '../../components/Entry.astro';
+import { projects } from '../../data/projects';
+---
+<Base title="Projects – Nate Rose">
+  <h1>Projects</h1>
+  <p class="entry-meta">Hover a thumbnail to play its clip.</p>
+  <div class="entries" style="margin-top:22px">
+    {projects.map((p) => <Entry {...p} />)}
+  </div>
+</Base>

@@ -1,0 +1,53 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Nate Rose — cloud engineering, distributed systems, and neurotechnology research.' } = Astro.props;
+
+const here = Astro.url.pathname;
+const nav = [
+  { label: 'Main', href: '/' },
+  { label: 'Writing', href: '/writing/' },
+  { label: 'Projects', href: '/projects/' },
+  { label: 'Publications', href: '/publications/' },
+  { label: 'CV', href: '/assets/NathanielRose_CV.pdf' },
+];
+
+const isCurrent = (href: string) =>
+  href === '/' ? here === '/' : here.startsWith(href);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="alternate" type="application/rss+xml" title="Nate Rose" href="/feed.xml" />
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-inner">
+        {nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={item.href.startsWith('/assets') ? undefined : (isCurrent(item.href) ? 'page' : undefined)}
+          >{item.label}</a>
+        ))}
+      </div>
+    </nav>
+    <main class="wrap">
+      <slot />
+      <footer class="site">
+        Nate Rose · <a href="mailto:nate@naterose.io">nate@naterose.io</a> ·
+        <a href="https://github.com/nathanielrose">GitHub</a> ·
+        <a href="https://linkedin.com/in/nathanielrose">LinkedIn</a>
+      </footer>
+    </main>
+  </body>
+</html>

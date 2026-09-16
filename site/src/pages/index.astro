@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import Entry from '../components/Entry.astro';
+import { projects } from '../data/projects';
+import { getCollection } from 'astro:content';
+import { formatDate } from '../lib/date';
+
+const posts = (await getCollection('posts')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const slugOf = (id: string) => id.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+const recent = posts.slice(0, 3);
+const fmt = formatDate;
+---
+<Base title="Nate Rose">
+  <header class="identity">
+    <img src="/images/headshot.jpg" alt="Nate Rose" width="150" height="150" />
+    <div>
+      <h1>Nate Rose</h1>
+      <p class="tagline">Software Engineer. Cloud &amp; Distributed Systems. Bay Area.</p>
+      <div class="contact">
+        <a href="mailto:nate@naterose.io">nate@naterose.io</a> <a href="/assets/NathanielRose_CV.pdf">[cv]</a>
+      </div>
+    </div>
+  </header>
+
+  <p>
+    I build cloud SaaS applications, microservices, and big-data systems. I'm
+    interested in the infrastructure layer underneath machine learning — how
+    distributed systems are provisioned, orchestrated, and kept running.
+  </p>
+
+  <h2>Bio</h2>
+  <p>
+    I'm a Commercial Software Developer at <a href="https://microsoft.com">Microsoft</a>,
+    focused on cloud SaaS applications, microservices, and big-data solutions. Outside of
+    that I study neurotechnology and data science, and volunteer with <a href="https://eastbaynsbe.org">East Bay NSBE Jr.</a> I ride a 2012 Triumph Bonneville
+    T100, play alto sax, and spend as much time as I can boxing and windsurfing.
+  </p>
+
+  <h2>Selected Projects</h2>
+  <div class="entries">
+    {projects.map((p) => <Entry {...p} />)}
+  </div>
+
+  <h2>Recent Writing</h2>
+  <div class="entries">
+    {recent.map((post) => (
+      <Entry
+        title={post.data.title}
+        href={`/${slugOf(post.id)}/`}
+        meta={fmt(post.data.date)}
+        desc={post.data.excerpt}
+        badge="Blog"
+      />
+    ))}
+  </div>
+  <p><a href="/writing/">All writing →</a></p>
+</Base>

@@ -1,0 +1,33 @@
+---
+import MediaThumb from './MediaThumb.astro';
+
+interface Props {
+  title: string;
+  href: string;
+  /** Second line: authors + venue, or a date, or a repo path. */
+  meta?: string;
+  desc?: string;
+  poster?: string;
+  video?: string;
+  badge?: string;
+  external?: boolean;
+}
+const { title, href, meta, desc, poster, video, badge, external = false } = Astro.props;
+
+// Rows without artwork collapse to a single column rather than showing a
+// placeholder — a column of identical grey boxes reads as noise.
+const hasMedia = Boolean(poster || video);
+const linkAttrs = external ? { target: '_blank', rel: 'noopener' } : {};
+---
+<article class:list={['entry', !hasMedia && 'no-media']}>
+  {hasMedia && (
+    <a href={href} {...linkAttrs} aria-hidden="true" tabindex="-1">
+      <MediaThumb poster={poster ?? '/images/placeholder.svg'} video={video} alt="" />
+    </a>
+  )}
+  <div>
+    <a class="entry-title" href={href} {...linkAttrs}>{title}</a>{badge && <span class="badge">{badge}</span>}
+    {meta && <div class="entry-meta">{meta}</div>}
+    {desc && <p class="entry-desc">{desc}</p>}
+  </div>
+</article>

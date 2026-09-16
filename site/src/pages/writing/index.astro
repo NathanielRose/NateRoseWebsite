@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import Entry from '../../components/Entry.astro';
+import { getCollection } from 'astro:content';
+import { SUBSTACK_URL, fetchSubstackPosts } from '../../data/substack';
+import { formatDate } from '../../lib/date';
+
+const slugOf = (id: string) => id.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+
+const blog = (await getCollection('posts')).map((post) => ({
+  title: post.data.title,
+  href: `/${slugOf(post.id)}/`,
+  date: post.data.date,
+  desc: post.data.excerpt,
+  badge: 'Blog',
+  external: false,
+}));
+
+const newsletter = (await fetchSubstackPosts()).map((item) => ({
+  title: item.title,
+  href: item.href,
+  date: item.date,
+  desc: item.excerpt,
+  badge: 'Substack',
+  external: true,
+}));
+
+// One list, newest first, regardless of where a piece lives.
+const all = [...blog, ...newsletter].sort((a, b) => b.date.valueOf() - a.date.valueOf());
+const fmt = formatDate;
+---
+<Base title="Writing – Nate Rose">
+  <h1>Writing</h1>
+
+  <div class="subscribe">
+    <span>
+      {SUBSTACK_URL
+        ? 'Longer-form pieces go out on the newsletter first.'
+        : 'Newsletter not wired up yet — drop your Substack URL into src/data/substack.ts and these merge in automatically.'}
+    </span>
+    {SUBSTACK_URL && (
+      <a href={SUBSTACK_URL} target="_blank" rel="noopener"><b>Subscribe →</b></a>
+    )}
+  </div>
+
+  <div class="entries">
+    {all.map((item) => (
+      <Entry
+        title={item.title}
+        href={item.href}
+        meta={fmt(item.date)}
+        desc={item.desc}
+        badge={item.badge}
+        external={item.external}
+      />
+    ))}
+  </div>
+</Base>

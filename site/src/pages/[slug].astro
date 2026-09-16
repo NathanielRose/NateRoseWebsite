@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { formatDate } from '../lib/date';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    // Strip Jekyll's YYYY-MM-DD- filename prefix so these land on the same
+    // URLs the old site published (`permalink: /:title/`).
+    params: { slug: post.id.replace(/^\d{4}-\d{2}-\d{2}-/, '') },
+    props: { post },
+  }));
+}
+
+type Props = { post: CollectionEntry<'posts'> };
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const tags = Array.isArray(post.data.tag)
+  ? post.data.tag
+  : post.data.tag
+    ? [post.data.tag]
+    : [];
+const fmt = formatDate(post.data.date);
+---
+<Base title={`${post.data.title} – Nate Rose`} description={post.data.excerpt}>
+  <article>
+    <h1>{post.data.title}</h1>
+    <div class="entry-meta">
+      {fmt}
+      {tags.length > 0 && <> · {tags.map((t) => t.trim()).join(', ')}</>}
+    </div>
+    <div class="prose" style="margin-top:26px">
+      <Content />
+    </div>
+  </article>
+  <p style="margin-top:36px"><a href="/writing/">← All writing</a></p>
+</Base>

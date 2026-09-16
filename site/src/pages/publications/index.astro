@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import Entry from '../../components/Entry.astro';
+import { publications } from '../../data/publications';
+---
+<Base title="Publications – Nate Rose">
+  <h1>Publications</h1>
+  {publications.length === 0 ? (
+    <p class="note">
+      This section is deliberately empty. I didn't want to invent entries — tell me
+      what belongs here (conference talks? workshops? the Berkeley neurotech and
+      data-science work?) and I'll set the row format to match. Papers and talks
+      want different metadata, so the choice changes the layout.
+    </p>
+  ) : (
+    <div class="entries">
+      {publications.map((p) => <Entry {...p} />)}
+    </div>
+  )}
+</Base>
