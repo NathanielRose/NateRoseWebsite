@@ -215,3 +215,17 @@ footer.site {
 @media (pointer: coarse) {
   .thumb-hint { display: none; }
 }
+
+/* Shiki emits both palettes as custom properties; pick the dark one when the
+   visitor's system asks for dark. Without this the code blocks keep the light
+   theme's white background on a dark page. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .astro-code,
+  :root:not([data-theme="light"]) .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
+}

@@ -8,7 +8,10 @@ export default defineConfig({
   build: { format: 'directory' },
   markdown: {
     shikiConfig: {
-      theme: 'github-light',
+      // Dual themes emit --shiki-light/--shiki-dark custom properties, which
+      // global.css switches on. A single theme would inline a white code
+      // background that stays white on the dark page.
+      themes: { light: 'github-light', dark: 'github-dark' },
       wrap: true,
       // The 2017 posts label fences informally ("Powershell", "Terminal",
       // "gulp"). Aliasing to canonical Shiki ids restores highlighting
