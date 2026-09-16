@@ -3,20 +3,15 @@
 // 18px, drawn in currentColor so they follow the text in either palette and
 // need no separate dark-mode assets.
 //
-// The motorcycle is deliberately built around an engine block, front fork and
-// handlebar rather than a diamond frame — a two-circles-and-a-triangle glyph
-// reads as a bicycle at this size.
+// Motorcycling is a helmet rather than a side-profile bike: two wheels joined
+// by a frame reads as a bicycle at this size, however the frame is drawn.
 ---
 <p class="interests-label">Other interests:</p>
 <ul class="interests" aria-label="Other interests">
   <li>
     <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="5" cy="16.5" r="3.6" />
-      <circle cx="19" cy="16.5" r="3.6" />
-      <rect x="8.6" y="11.4" width="6.4" height="4.2" rx="1.2" />
-      <path d="M5 16.5 L8.6 15 M15 15 L19 16.5" />
-      <path d="M13.6 11.4 L16.8 7.6 L20 7.6" />
-      <path d="M8.6 11.6 L7 9 L10.4 9" />
+      <path d="M3.6 14.4 a8.4 8.4 0 0 1 16.8 0 v1.9 a2.1 2.1 0 0 1-2.1 2.1 h-6.3 l-6.3-1 a2.1 2.1 0 0 1-2.1-2.1 z" />
+      <path d="M8.2 11.6 a5.4 5.4 0 0 1 9.4-1.4 l1.1 3.2 h-6.6" />
     </svg>
     <span>Motorcycles</span>
   </li>
@@ -49,9 +44,10 @@
   </li>
   <li>
     <svg viewBox="0 0 24 24" aria-hidden="true">
-      <rect x="3" y="6" width="18" height="13" rx="1.5" />
-      <path d="M3 10 h18 M8 6 v4 M14 6 v4" />
-      <path d="M3.5 6 L7 3 M9.5 6 L13 3 M15.5 6 L19 3" />
+      <rect x="4" y="4" width="16" height="16" rx="1.6" />
+      <path d="M8 4 v16 M16 4 v16" />
+      <path d="M4.6 7.6 h2.8 M4.6 12 h2.8 M4.6 16.4 h2.8" />
+      <path d="M16.6 7.6 h2.8 M16.6 12 h2.8 M16.6 16.4 h2.8" />
     </svg>
     <span>Film</span>
   </li>
