@@ -75,6 +75,7 @@ h3 { font-size: 17px; margin: 28px 0 8px; }
   align-items: center;
   margin-bottom: 26px;
 }
+.identity picture { flex-shrink: 0; display: block; }
 .identity img {
   width: 150px;
   height: 150px;
