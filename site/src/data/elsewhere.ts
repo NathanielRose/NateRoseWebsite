@@ -40,7 +40,7 @@ export const elsewhere: Elsewhere[] = [
     title: 'ML Training and Deployment Pipeline Using Databricks',
     href: 'https://web.archive.org/web/20230331155429/https://engineering.ripple.com/ml-training-and-deployment-pipeline-using-databricks/',
     // A colleague's article, so it is linked rather than copied into /archive/.
-    meta: 'Ripple Engineering · by Mihir Mavalankar · via Wayback Machine',
+    meta: 'Ripple Engineering · Mihir Mavalankar · via Wayback Machine',
     date: '2023-03-30',
     badge: 'Article',
   },

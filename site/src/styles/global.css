@@ -247,9 +247,10 @@ footer.site {
 }
 
 /* ---- one-line citation rows ------------------------------------------- */
-.entries.tight { gap: 11px; }
+.entries.tight { gap: 15px; }
 .entry.compact { display: block; }
-.entry.compact .entry-meta { display: inline; margin-left: 9px; }
+.entry.compact .entry-head { margin-bottom: 1px; }
+.entry.compact .entry-meta { display: block; }
 
 /* ---- project schematics ------------------------------------------------
    Line diagrams of what each project does, shown where no real capture
@@ -383,6 +384,7 @@ footer.site {
 .badge[data-badge="Podcast"]     { background: #efe7f7; color: #4e3170; }
 .badge[data-badge="Substack"]    { background: #fce6dc; color: #8b3a17; }
 .badge[data-badge="Blog"]        { background: #ececec; color: #4a4a4a; }
+.badge[data-badge="Archived"]    { background: #eae7e1; color: #5c5346; }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .badge[data-badge="Publication"] { background: #222b45; color: #a8bdf0; }
@@ -391,4 +393,36 @@ footer.site {
   :root:not([data-theme="light"]) .badge[data-badge="Podcast"]     { background: #2a2137; color: #c3a9e4; }
   :root:not([data-theme="light"]) .badge[data-badge="Substack"]    { background: #37231a; color: #e3a98c; }
   :root:not([data-theme="light"]) .badge[data-badge="Blog"]        { background: #2a2a2e; color: #a6a6a6; }
+  :root:not([data-theme="light"]) .badge[data-badge="Archived"]    { background: #2e2a24; color: #bdb09c; }
 }
+
+/* ---- other interests --------------------------------------------------- */
+.interests {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  margin: 18px 0 0;
+  padding: 0;
+}
+.interests li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.interests svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The archived marker sits with the title rather than in the metadata line. */
+h1 .badge { vertical-align: 6px; }

@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Entry from '../components/Entry.astro';
+import Interests from '../components/Interests.astro';
 import { projects } from '../data/projects';
 import { getFeed } from '../lib/entries';
 
@@ -77,8 +78,9 @@ const forms = [
       <b>Cerberus Neurosecurity Research Institute</b>. I'm now working on neurosecurity
       and cognitive security independently: the systems that move neural data, the
       models that read it, and the standards that will decide who any of it is safe
-      for. Outside of that, motorcycles, boxing, sailing, and the philosophy of mind.
+      for.
     </p>
+    <Interests />
   </div>
 
   <h2>Selected Projects</h2>
@@ -110,7 +112,6 @@ const forms = [
         meta={row.meta}
         badge={row.badge}
         external={row.external}
-        altHref={row.altHref}
         compact
       />
     ))}

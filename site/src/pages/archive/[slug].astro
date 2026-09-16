@@ -26,9 +26,9 @@ const body = bodies[key];
 ---
 <Base title={`${post.title} – Nathaniel Rose`} description={post.excerpt}>
   <article>
-    <h1>{post.title}</h1>
+    <h1>{post.title}<span class="badge" data-badge="Archived">Archived</span></h1>
     <div class="entry-meta">
-      {formatDate(new Date(post.date))} · {post.publication} · by {post.author}
+      {post.publication} · {post.author} · {formatDate(new Date(post.date))}
     </div>
 
     <p class="note" style="margin-top:22px">

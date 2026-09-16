@@ -19,8 +19,6 @@ export type FeedRow = {
   meta?: string;
   badge: string;
   external?: boolean;
-  /** Local archived copy, offered beside a live original. */
-  altHref?: string;
 };
 
 const slugOf = (id: string) => id.replace(/^\d{4}-\d{2}-\d{2}-/, '');
@@ -48,18 +46,18 @@ export async function getFeed(): Promise<FeedRow[]> {
     external: true,
   }));
 
-  // While an original is live it stays the primary link, out of courtesy to
-  // the publisher, with the mirror offered beside it. Once an original is
-  // gone, the local copy becomes the link.
+  // While an original is live it stays the primary link and the row reads as a
+  // normal article — the local mirror exists as insurance, not as something a
+  // reader needs to know about. Only when the original is gone does the row
+  // point at the copy, and only then is it labelled "Archived".
   const mirrors: FeedRow[] = archived.map((a) => ({
     title: a.title,
     href: a.originalLive ? a.originalUrl : `/archive/${a.slug}/`,
     when: formatDate(new Date(a.date)),
     sort: new Date(a.date).valueOf(),
-    meta: `${a.publication} · by ${a.author}`,
-    badge: 'Article',
+    meta: `${a.publication} · ${a.author}`,
+    badge: a.originalLive ? 'Article' : 'Archived',
     external: a.originalLive,
-    altHref: a.originalLive ? `/archive/${a.slug}/` : undefined,
   }));
 
   const blog: FeedRow[] = (await getCollection('posts')).map((post) => ({

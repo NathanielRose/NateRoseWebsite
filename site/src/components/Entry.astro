@@ -7,9 +7,9 @@ interface Props {
   /** Omit when there is nothing to link to — the title renders as plain text
       rather than a dead anchor. */
   href?: string;
-  /** Institution, authors, stack. */
+  /** Publisher, authors, institution, stack. */
   meta?: string;
-  /** Date or year, shown ahead of `meta`. */
+  /** Date or year. Sits at the end of the metadata line. */
   when?: string;
   desc?: string;
   poster?: string;
@@ -18,29 +18,30 @@ interface Props {
   diagram?: string;
   badge?: string;
   external?: boolean;
-  /** Secondary link, e.g. a local archived copy alongside a live original. */
-  altHref?: string;
-  altLabel?: string;
-  /** One-line citation style: title, badge and metadata on a single row. */
+  /** Citation style: title and badge on one line, metadata beneath. */
   compact?: boolean;
 }
 const {
   title, href, meta, when, desc, poster, video, diagram, badge,
-  external = false, altHref, altLabel = 'archived', compact = false,
+  external = false, compact = false,
 } = Astro.props;
 
 const hasMedia = !compact && Boolean(poster || video || diagram);
 const linkAttrs = external ? { target: '_blank', rel: 'noopener' } : {};
-const metaLine = [when, meta].filter(Boolean).join(' · ');
+
+// Publisher and author read before the date, so the line answers "who
+// published this" before "when".
+const metaLine = [meta, when].filter(Boolean).join(' · ');
 
 const Title = href ? 'a' : 'span';
 const titleAttrs = href ? { href, ...linkAttrs } : {};
 ---
 {compact ? (
   <article class="entry compact">
-    <Title class="entry-title" {...titleAttrs}>{title}</Title>{badge && <span class="badge" data-badge={badge}>{badge}</span>}
-    {metaLine && <span class="entry-meta">{metaLine}</span>}
-    {altHref && <a class="entry-alt" href={altHref}>[{altLabel}]</a>}
+    <div class="entry-head">
+      <Title class="entry-title" {...titleAttrs}>{title}</Title>{badge && <span class="badge" data-badge={badge}>{badge}</span>}
+    </div>
+    {metaLine && <div class="entry-meta">{metaLine}</div>}
   </article>
 ) : (
   <article class:list={['entry', !hasMedia && 'no-media']}>
