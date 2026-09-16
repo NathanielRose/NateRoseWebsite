@@ -7,7 +7,9 @@
   --link: #1a5fb4;
   --badge-bg: #f2f2f2;
   --badge-fg: #555;
-  --font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font: "Newsreader", Georgia, "Times New Roman", serif;
+  /* Technical metadata — dates, stacks, venues — is set in mono. */
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,8 +31,8 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font);
-  font-size: 17px;
-  line-height: 1.55;
+  font-size: 18px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -81,7 +83,7 @@ h3 { font-size: 18px; margin: 28px 0 8px; }
   flex-shrink: 0;
 }
 .identity .tagline { font-weight: 600; margin: 0 0 2px; }
-.identity .contact { font-size: 15px; color: var(--muted); }
+.identity .contact { font-family: var(--font-mono); font-size: 13.5px; color: var(--muted); }
 
 /* ---- entry rows (the publication-list pattern) ------------------------- */
 .entries { display: flex; flex-direction: column; gap: 22px; }
@@ -92,13 +94,19 @@ h3 { font-size: 18px; margin: 28px 0 8px; }
   align-items: start;
 }
 .entry-title { font-weight: 600; }
-.entry-meta { color: var(--muted); font-size: 15px; }
+.entry-meta {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  letter-spacing: -0.005em;
+}
 .entry-desc { margin: 4px 0 0; font-size: 15.5px; }
 
 .badge {
   display: inline-block;
-  font-size: 11px;
-  letter-spacing: .04em;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: .02em;
   text-transform: uppercase;
   background: var(--badge-bg);
   color: var(--badge-fg);
@@ -130,8 +138,9 @@ h3 { font-size: 18px; margin: 28px 0 8px; }
   position: absolute;
   right: 5px;
   bottom: 5px;
+  font-family: var(--font-mono);
   font-size: 10px;
-  letter-spacing: .05em;
+  letter-spacing: .02em;
   background: rgba(0,0,0,.62);
   color: #fff;
   border-radius: 2px;
@@ -142,7 +151,7 @@ h3 { font-size: 18px; margin: 28px 0 8px; }
 .thumb.is-playing .thumb-hint { opacity: 0; }
 
 /* ---- prose ------------------------------------------------------------- */
-.prose { font-size: 17px; }
+.prose { font-size: 18px; }
 .prose img { max-width: 100%; height: auto; }
 .prose pre {
   overflow-x: auto;
