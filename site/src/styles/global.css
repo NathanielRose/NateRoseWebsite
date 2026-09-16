@@ -338,3 +338,52 @@ footer.site {
 @media (prefers-reduced-motion: reduce) {
   .diagram * { animation: none !important; }
 }
+
+/* ---- "three forms" definition list ------------------------------------ */
+.forms { margin: 0; }
+.forms dt { font-weight: 600; margin-top: 16px; }
+.forms dt:first-child { margin-top: 0; }
+.forms dd { margin: 3px 0 0; color: var(--fg); }
+
+/* ---- career arc -------------------------------------------------------- */
+.arc {
+  list-style: none;
+  margin: 0 0 22px;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+.arc li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.arc li span {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--muted);
+  text-align: right;
+}
+
+/* ---- archived third-party articles ------------------------------------ */
+.archived-body { margin-top: 26px; }
+.archived-body h1 { font-size: 24px; margin: 30px 0 10px; }
+.archived-body h2 { font-size: 20px; }
+.archived-body img { max-width: 100%; height: auto; border-radius: 3px; }
+.archived-body figure { margin: 22px 0; }
+.archived-body figcaption { font-size: 14px; color: var(--muted); }
+.figure-missing {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  border: 1px dashed var(--rule);
+  border-radius: 4px;
+  padding: 14px;
+  text-align: center;
+}
+
+@media (max-width: 620px) {
+  .arc li { flex-direction: column; gap: 2px; }
+  .arc li span { text-align: left; }
+}

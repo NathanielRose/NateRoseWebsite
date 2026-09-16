@@ -4,6 +4,8 @@ import Entry from '../../components/Entry.astro';
 import { getCollection } from 'astro:content';
 import { SUBSTACK_URL, fetchSubstackPosts } from '../../data/substack';
 import { publications } from '../../data/publications';
+import { elsewhere } from '../../data/elsewhere';
+import { archived } from '../../data/archive';
 import { formatDate } from '../../lib/date';
 
 const slugOf = (id: string) => id.replace(/^\d{4}-\d{2}-\d{2}-/, '');
@@ -14,22 +16,42 @@ type Row = {
   when: string;
   sort: number;
   meta?: string;
-  desc?: string;
   badge: string;
   external?: boolean;
 };
 
-// Papers and preprints. Only a year is recorded, so they sort to the end of
-// their year rather than claiming a day they don't have.
+// Year-only items sort to the end of their year rather than claiming a day.
+const endOfYear = (year: string) => new Date(Number(year), 11, 31).valueOf();
+
 const papers: Row[] = publications.map((p) => ({
   title: p.title,
   href: p.href,
   when: p.year,
-  sort: new Date(Number(p.year), 11, 31).valueOf(),
+  sort: endOfYear(p.year),
   meta: p.meta,
-  desc: p.desc,
   badge: p.badge,
   external: Boolean(p.href),
+}));
+
+// Talks, podcasts and pieces published elsewhere.
+const external: Row[] = elsewhere.map((e) => ({
+  title: e.title,
+  href: e.href,
+  when: e.date ? formatDate(new Date(e.date)) : (e.year ?? ''),
+  sort: e.date ? new Date(e.date).valueOf() : e.year ? endOfYear(e.year) : 0,
+  meta: e.meta,
+  badge: e.badge,
+  external: true,
+}));
+
+// Local copies of posts whose original publication is gone.
+const mirrors: Row[] = archived.map((a) => ({
+  title: a.title,
+  href: `/archive/${a.slug}/`,
+  when: formatDate(new Date(a.date)),
+  sort: new Date(a.date).valueOf(),
+  meta: `${a.publication} · archived copy`,
+  badge: 'Archived',
 }));
 
 const blog: Row[] = (await getCollection('posts')).map((post) => ({
@@ -37,7 +59,6 @@ const blog: Row[] = (await getCollection('posts')).map((post) => ({
   href: `/${slugOf(post.id)}/`,
   when: formatDate(post.data.date),
   sort: post.data.date.valueOf(),
-  desc: post.data.excerpt,
   badge: 'Blog',
 }));
 
@@ -46,15 +67,15 @@ const newsletter: Row[] = (await fetchSubstackPosts()).map((item) => ({
   href: item.href,
   when: formatDate(item.date),
   sort: item.date.valueOf(),
-  desc: item.excerpt,
   badge: 'Substack',
   external: true,
 }));
 
-// One list, newest first. Papers, posts and newsletter issues sit together and
-// are told apart by their badge — this stays a single page until there is
-// enough of any one kind to justify splitting it.
-const all = [...papers, ...blog, ...newsletter].sort((a, b) => b.sort - a.sort);
+// One list, newest first. Papers, talks, press, archived pieces and posts sit
+// together and are told apart by their badge.
+const all = [...papers, ...external, ...mirrors, ...blog, ...newsletter].sort(
+  (a, b) => b.sort - a.sort
+);
 ---
 <Base title="Research & Writing – Nathaniel Rose">
   <h1>Research &amp; Writing</h1>

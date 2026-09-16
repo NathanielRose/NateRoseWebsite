@@ -11,6 +11,34 @@ const posts = (await getCollection('posts')).sort(
 );
 const slugOf = (id: string) => id.replace(/^\d{4}-\d{2}-\d{2}-/, '');
 const recent = posts.slice(0, 3);
+
+// The framing, and the career arc below it, follow Nathaniel's own positioning
+// slide rather than the CV's reverse-chronological job list.
+const forms = [
+  {
+    name: 'Human intelligence',
+    body:
+      'Neuroscience and cognitive science. Neural signatures as identity, and the philosophy of agency behind what makes a mind your own.',
+  },
+  {
+    name: 'Artificial intelligence',
+    body:
+      'Machine learning and the infrastructure it runs on. Model security, and the attack surface that opens when systems read neural data.',
+  },
+  {
+    name: 'Systemic intelligence',
+    body:
+      'How institutions think. Education policy, standardization, and governance, because standards decide who neurotech is safe for.',
+  },
+];
+
+const arc = [
+  { where: 'Microsoft', what: 'Software engineering' },
+  { where: 'Imperial College London', what: 'MRes Neurotechnology' },
+  { where: 'Ripple', what: 'Payments infrastructure' },
+  { where: 'Circle', what: 'Stablecoin infrastructure' },
+  { where: 'New venture', what: 'Neurosecurity, cognitive security' },
+];
 ---
 <Base title="Nathaniel Rose">
   <header class="identity">
@@ -20,7 +48,7 @@ const recent = posts.slice(0, 3);
     </picture>
     <div>
       <h1>Nathaniel Rose</h1>
-      <p class="tagline">Research Engineer. Neurotechnology &amp; Neurosecurity. Oakland / London.</p>
+      <p class="tagline">Research Engineer. Neurosecurity and cognitive security. Oakland / London.</p>
       <div class="contact">
         <a href="mailto:nate@naterose.io">nate@naterose.io</a> <a href="/assets/NathanielRose_CV_2026.pdf">[cv]</a>
       </div>
@@ -29,27 +57,41 @@ const recent = posts.slice(0, 3);
 
   <p>
     I work on the security of neural data — the systems that carry it, the models
-    that read it, and the governance that should constrain both. Before that I
+    that read it, and the standards that decide who it is safe for. Before that I
     spent a decade building the data and ML infrastructure underneath other
     people's models.
   </p>
 
+  <h2>Interested in intelligence, in three forms</h2>
+  <dl class="forms">
+    {forms.map((f) => (
+      <>
+        <dt>{f.name}</dt>
+        <dd>{f.body}</dd>
+      </>
+    ))}
+  </dl>
+
   <h2>Bio</h2>
+  <ol class="arc">
+    {arc.map((step) => (
+      <li><b>{step.where}</b><span>{step.what}</span></li>
+    ))}
+  </ol>
   <p>
-    I'm co-founder and Executive Director of the <b>Cerberus Neurosecurity Research
-    Institute</b>, a nonprofit advancing brain-computer interface and neural data
-    security across four pillars: information transit, wetware, cognitive defense,
-    and neural governance. I'm also co-founder and CTO of <b>Lymbic AI</b> in London,
-    where we built EEG-based methods for privacy-preserving biometric
-    identification and raised pre-seed funding to pursue them.
+    I started as an engineer at <b>Microsoft</b>, working on Kubernetes, Terraform and
+    ML pipelines, then took an MRes in Neurotechnology at <b>Imperial College London</b>
+    in the Brain and Behavior Lab, on gaze selection and brain-machine interfaces.
+    I spent the next several years on financial infrastructure — senior MLOps
+    engineer at <b>Ripple</b>, then staff data platform engineer at <b>Circle</b> — building
+    feature stores, data catalogs and the orchestration underneath them.
   </p>
   <p>
-    Earlier I was a Staff Data Platform Engineer at <b>Circle</b>, a Senior MLOps
-    Engineer at <b>Ripple</b>, and spent six years at <b>Microsoft</b> as an engineer and
-    technical evangelist working on Kubernetes, Terraform and ML pipelines. I
-    studied Computer Engineering at <b>Syracuse University</b> and took an MRes in
-    Neurotechnology at <b>Imperial College London</b>, in the Brain and Behavior Lab,
-    working on gaze selection and brain-machine interfaces.
+    Along the way I co-founded <b>Lymbic AI</b> in London, which built EEG-based
+    privacy-preserving biometrics and has since closed, and helped start the
+    <b>Cerberus Neurosecurity Research Institute</b>. I'm now working on neurosecurity
+    and cognitive security independently. Outside of that: motorcycles, boxing,
+    sailing, and the philosophy of mind.
   </p>
 
   <h2>Publications</h2>

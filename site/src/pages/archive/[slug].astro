@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import { archived } from '../../data/archive';
+import { formatDate } from '../../lib/date';
+
+// The article bodies are raw HTML fragments rather than markdown, because they
+// were captured as rendered HTML. Vite's ?raw import inlines them at build
+// time, so nothing is fetched at runtime.
+const bodies = import.meta.glob('../../archive/*.html', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+
+export function getStaticPaths() {
+  return archived.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const key = Object.keys(bodies).find((k) => k.endsWith(`/${post.slug}.html`));
+if (!key) throw new Error(`No archived body for ${post.slug} — expected src/archive/${post.slug}.html`);
+const body = bodies[key];
+---
+<Base title={`${post.title} – Nathaniel Rose`} description={post.excerpt}>
+  <article>
+    <h1>{post.title}</h1>
+    <div class="entry-meta">
+      {formatDate(new Date(post.date))} · originally published in {post.publication}
+    </div>
+
+    <p class="note" style="margin-top:22px">
+      <b>Archived copy.</b> {post.publication} has been decommissioned and the
+      original URL no longer resolves. This is the article as captured by the
+      <a href={post.archiveUrl} target="_blank" rel="noopener">Wayback Machine</a>,
+      republished here so it stays readable.
+      {post.missingFigures ? ` Its ${post.missingFigures} diagrams were not preserved in the capture and are marked in place.` : ''}
+    </p>
+
+    <div class="prose archived-body" set:html={body} />
+  </article>
+  <p style="margin-top:36px"><a href="/writing/">← All research &amp; writing</a></p>
+</Base>
