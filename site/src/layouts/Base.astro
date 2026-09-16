@@ -21,7 +21,10 @@ const isCurrent = (href: string) =>
   href === '/' ? here === '/' : here.startsWith(href);
 ---
 <!doctype html>
-<html lang="en">
+<!-- TEMPORARY: data-theme="light" pins the site to the light palette for
+     testing. Every dark rule is guarded with :root:not([data-theme="light"]),
+     so deleting this attribute restores automatic system-based switching. -->
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

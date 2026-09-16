@@ -21,7 +21,7 @@ This is where triggered SaaS solutions like [IFTTT](https://ifttt.com/) and [Azu
 
 To get you familiar with the Logic App Designer, lets use one of the templates to set up a simple triggered pipe of API actions. Select the Post tweet for new Instagram Posts template. You will be prompted to authorize Azure to have access to your Twitter & Instagram accounts. Sign In to your accounts.
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img1.png" width="300">
+<img src="/images/posts/post5/img1.png" width="300">
 
 The template is pretty self explanatory but here are a few things to note:
 
@@ -29,7 +29,7 @@ The template is pretty self explanatory but here are a few things to note:
 * The GET request that contains the content from your post has additional fields pertaining to your post that can be used for what ever you're looking to do.
     * I.E. User Info, Height of Image, Media ID, List of tags etc.
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img00.PNG" width="500">
+<img src="/images/posts/post5/img00.PNG" width="500">
 
 ## Trigger Logic Apps via FTP from Jekyll Site
 
@@ -39,14 +39,14 @@ Create a new Logic App.
 
 Search and select the trigger: **When a file is added to a FTP server**
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img6.PNG" width="500">
+<img src="/images/posts/post5/img6.PNG" width="500">
 
 Name the FTP  `connection name` and Grab the FTP `server address`, `user name` & `password` from the Linux Web App Publish Settings.
 > You server address will look similar to ftp://waws-prod-am2-125.ftp.azurewebsites.windows.net/
 
 Navigate to the blog post directory. Set the directory of how often you would like to check the site for new context in this folder. For testing purposes lets select every minute.
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img2.png" width="500">
+<img src="/images/posts/post5/img2.png" width="500">
 
 Now lets send the output of our trigger to a [Request Bin](http://requestb.in).
 
@@ -56,7 +56,7 @@ In the Logic App Designer add a new HTTP action.
 
 Select POST as the Method and your new requestb.in URL for the Uri field. For the Body field use the File Content tab in quotations
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img3.png" width="500">
+<img src="/images/posts/post5/img3.png" width="500">
 
 Now we need to test our trigger. You can do this by simply uploading a new file to the site or `cp` the contents of an existing file as a new name in the directory.
 * Navigate to your Linux Web App for your Site.
@@ -66,13 +66,13 @@ Now we need to test our trigger. You can do this by simply uploading a new file 
 
 Once you have triggered the logic app you will see the success status displayed in the portal blade. Refresh your Request Bin and you will see the contents of your file in the body
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img5.png" width="500">
+<img src="/images/posts/post5/img5.png" width="500">
 
 ## Using Azure Functions with your Logic App
 
 When we return back to the designer we can select our next action to be **Write a Medium Story**. Unfortunately, the connector only accepts the story to be in HTML format.
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img7.PNG" width="500">
+<img src="/images/posts/post5/img7.PNG" width="500">
 
 So we'll have to create some quick code that converts our mark down file to HTML for the medium connector to push to their API for publishing a new story.
 
@@ -82,7 +82,7 @@ Let's go ahead and create an Azure Function App through the portal. Be sure to u
 
 Once the Azure Function has been successfully deployed, we will create a new HTTP Triggered function app in C#.
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img11.png" width="500">
+<img src="/images/posts/post5/img11.png" width="500">
 
 For our Markdown to HTML conversion we'll use the [CommonMark.NET](https://github.com/Knagis/CommonMark.NET) library available as a C# NuGet package. We can add this package to our function app to reference using a project.json file.
 
@@ -168,11 +168,11 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
 Azure Functions allow us to test the function as well through the UI. On the right side of the window select the **Test** tab and enter your sample markdown file in the `request body`. Run your function and you will see the Output and status code at the bottom of the Test window.
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img12.PNG" width="500">
+<img src="/images/posts/post5/img12.PNG" width="500">
 
 Navigate back to your Logic App and add an Azure Function as an action. You will see your newly created function listed. Select and add the FTP triggered dynamic content property `File Content` as your request body.
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img13.PNG" width="500">
+<img src="/images/posts/post5/img13.PNG" width="500">
 
 > Feel free to also add another request bin to verify the response object of the Function app using a HTTP POST action.
 
@@ -190,23 +190,23 @@ Add the Parse JSON Dynamic Property `post` for the `Content (as html)` property.
 
 Be sure to switch the Publish Status to **Draft** as well.
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img14.PNG" width="500">
+<img src="/images/posts/post5/img14.PNG" width="500">
 
 If you'd like to also add an alert to this Logic App Flow to notify you when a post has been drafted and pending review, Add a **Send Email** Action with the Medium properties for you to easily navigate to the draft and make necessary edits before submitting publicly.
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img15.png" width="500">
+<img src="/images/posts/post5/img15.png" width="500">
 
 Your final Logic App sequence should look similar to the flow below. Trigger your Logic App by adding a new file to your posts directory.
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img16.png" width="500">
+<img src="/images/posts/post5/img16.png" width="500">
 
 Here's a capture of the email that gets generated.
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img17.png" width="400">
+<img src="/images/posts/post5/img17.png" width="400">
 
 Navigate to the post URL and you will see the drafted post that was triggered from the Jekyll site.
 
-<img src="https://natewebsite.blob.core.windows.net/post5/img18.png" width="500">
+<img src="/images/posts/post5/img18.png" width="500">
 
 
 ## Things to Consider..
