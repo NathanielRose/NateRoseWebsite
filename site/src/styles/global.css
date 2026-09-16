@@ -31,7 +31,7 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font);
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -46,9 +46,9 @@ a { color: var(--link); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 h1, h2, h3, h4 { font-weight: 600; line-height: 1.25; }
-h1 { font-size: 30px; margin: 0 0 4px; }
-h2 { font-size: 21px; margin: 40px 0 14px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
-h3 { font-size: 18px; margin: 28px 0 8px; }
+h1 { font-size: 27px; margin: 0 0 4px; }
+h2 { font-size: 20px; margin: 40px 0 14px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+h3 { font-size: 17px; margin: 28px 0 8px; }
 
 /* ---- top navigation ---------------------------------------------------- */
 .nav {
@@ -63,7 +63,7 @@ h3 { font-size: 18px; margin: 28px 0 8px; }
   gap: 20px;
   justify-content: flex-end;
   flex-wrap: wrap;
-  font-size: 15px;
+  font-size: 14px;
 }
 .nav-inner a { color: var(--fg); }
 .nav-inner a[aria-current="page"] { font-weight: 600; text-decoration: underline; }
@@ -83,7 +83,7 @@ h3 { font-size: 18px; margin: 28px 0 8px; }
   flex-shrink: 0;
 }
 .identity .tagline { font-weight: 600; margin: 0 0 2px; }
-.identity .contact { font-family: var(--font-mono); font-size: 13.5px; color: var(--muted); }
+.identity .contact { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
 
 /* ---- entry rows (the publication-list pattern) ------------------------- */
 .entries { display: flex; flex-direction: column; gap: 22px; }
@@ -97,15 +97,15 @@ h3 { font-size: 18px; margin: 28px 0 8px; }
 .entry-meta {
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 13.5px;
+  font-size: 13px;
   letter-spacing: -0.005em;
 }
-.entry-desc { margin: 4px 0 0; font-size: 15.5px; }
+.entry-desc { margin: 4px 0 0; font-size: 15px; }
 
 .badge {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: .02em;
   text-transform: uppercase;
   background: var(--badge-bg);
@@ -151,7 +151,7 @@ h3 { font-size: 18px; margin: 28px 0 8px; }
 .thumb.is-playing .thumb-hint { opacity: 0; }
 
 /* ---- prose ------------------------------------------------------------- */
-.prose { font-size: 18px; }
+.prose { font-size: 17px; }
 .prose img { max-width: 100%; height: auto; }
 .prose pre {
   overflow-x: auto;
