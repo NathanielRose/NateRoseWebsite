@@ -18,12 +18,15 @@ interface Props {
   diagram?: string;
   badge?: string;
   external?: boolean;
+  /** Secondary link, e.g. a local archived copy alongside a live original. */
+  altHref?: string;
+  altLabel?: string;
   /** One-line citation style: title, badge and metadata on a single row. */
   compact?: boolean;
 }
 const {
   title, href, meta, when, desc, poster, video, diagram, badge,
-  external = false, compact = false,
+  external = false, altHref, altLabel = 'archived', compact = false,
 } = Astro.props;
 
 const hasMedia = !compact && Boolean(poster || video || diagram);
@@ -37,6 +40,7 @@ const titleAttrs = href ? { href, ...linkAttrs } : {};
   <article class="entry compact">
     <Title class="entry-title" {...titleAttrs}>{title}</Title>{badge && <span class="badge">{badge}</span>}
     {metaLine && <span class="entry-meta">{metaLine}</span>}
+    {altHref && <a class="entry-alt" href={altHref}>[{altLabel}]</a>}
   </article>
 ) : (
   <article class:list={['entry', !hasMedia && 'no-media']}>

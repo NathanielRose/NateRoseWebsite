@@ -18,6 +18,7 @@ type Row = {
   meta?: string;
   badge: string;
   external?: boolean;
+  altHref?: string;
 };
 
 // Year-only items sort to the end of their year rather than claiming a day.
@@ -44,14 +45,19 @@ const external: Row[] = elsewhere.map((e) => ({
   external: true,
 }));
 
-// Local copies of posts whose original publication is gone.
+// Articles published elsewhere, each with a local copy kept as a fallback.
+// While the original is up it stays the primary link, out of courtesy to the
+// publisher, and the mirror is offered beside it. Once an original is gone,
+// the local copy becomes the link.
 const mirrors: Row[] = archived.map((a) => ({
   title: a.title,
-  href: `/archive/${a.slug}/`,
+  href: a.originalLive ? a.originalUrl : `/archive/${a.slug}/`,
   when: formatDate(new Date(a.date)),
   sort: new Date(a.date).valueOf(),
-  meta: `${a.publication} · archived copy`,
-  badge: 'Archived',
+  meta: `${a.publication} · by ${a.author}`,
+  badge: 'Article',
+  external: a.originalLive,
+  altHref: a.originalLive ? `/archive/${a.slug}/` : undefined,
 }));
 
 const blog: Row[] = (await getCollection('posts')).map((post) => ({
@@ -100,6 +106,7 @@ const all = [...papers, ...external, ...mirrors, ...blog, ...newsletter].sort(
         meta={row.meta}
         badge={row.badge}
         external={row.external}
+        altHref={row.altHref}
         compact
       />
     ))}

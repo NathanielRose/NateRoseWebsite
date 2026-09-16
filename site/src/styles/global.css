@@ -387,3 +387,6 @@ footer.site {
   .arc li { flex-direction: column; gap: 2px; }
   .arc li span { text-align: left; }
 }
+
+.entry-alt { font-family: var(--font-mono); font-size: 12px; margin-left: 8px; color: var(--muted); }
+.entry-alt:hover { color: var(--link); }
