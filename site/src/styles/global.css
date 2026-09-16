@@ -426,3 +426,27 @@ footer.site {
 
 /* The archived marker sits with the title rather than in the metadata line. */
 h1 .badge { vertical-align: 6px; }
+
+/* ---- three-forms as columns -------------------------------------------- */
+.forms.cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 26px;
+}
+.forms.cols dt { margin-top: 0; grid-row: 1; }
+.forms.cols dd { grid-row: 2; font-size: 15.5px; line-height: 1.5; }
+
+@media (max-width: 700px) {
+  .forms.cols { grid-template-columns: 1fr; gap: 0; }
+  .forms.cols dt { margin-top: 16px; grid-row: auto; }
+  .forms.cols dt:first-of-type { margin-top: 0; }
+  .forms.cols dd { grid-row: auto; }
+}
+
+.interests-label {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  margin: 20px 0 0;
+}
+.interests { margin-top: 8px; }
