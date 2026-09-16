@@ -3,10 +3,22 @@ import Base from '../../layouts/Base.astro';
 import Entry from '../../components/Entry.astro';
 import { projects } from '../../data/projects';
 ---
-<Base title="Projects – Nate Rose">
+<Base title="Projects – Nathaniel Rose">
   <h1>Projects</h1>
-  <p class="entry-meta">Hover a thumbnail to play its clip.</p>
+
   <div class="entries" style="margin-top:22px">
-    {projects.map((p) => <Entry {...p} />)}
+    {projects.map((p) => (
+      <Entry
+        title={p.title}
+        href={p.href}
+        when={p.year}
+        meta={p.meta}
+        desc={p.desc}
+        poster={p.poster}
+        video={p.video}
+        badge={p.badge}
+        external={p.external}
+      />
+    ))}
   </div>
 </Base>

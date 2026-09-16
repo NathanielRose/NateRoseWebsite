@@ -4,7 +4,8 @@
   --fg: #1a1a1a;
   --muted: #6b6b6b;
   --rule: #e6e6e6;
-  --link: #1a5fb4;
+  --link: #1f1f1f;
+  --link-rule: #c4c4c4;
   --badge-bg: #f2f2f2;
   --badge-fg: #555;
   --font: "Newsreader", Georgia, "Times New Roman", serif;
@@ -18,7 +19,8 @@
     --fg: #e8e8e8;
     --muted: #9a9a9a;
     --rule: #2c2c30;
-    --link: #7ab0f0;
+    --link: #e8e8e8;
+    --link-rule: #4d4d52;
     --badge-bg: #232327;
     --badge-fg: #a8a8a8;
   }
@@ -44,6 +46,19 @@ body {
 
 a { color: var(--link); text-decoration: none; }
 a:hover { text-decoration: underline; }
+
+/* Links are near-black rather than blue. In running prose that removes the
+   only cue that a word is a link, so body links keep a faint underline;
+   titles and nav don't need one because position already signals it. */
+main p a,
+.prose a {
+  text-decoration: underline;
+  text-decoration-color: var(--link-rule);
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+main p a:hover,
+.prose a:hover { text-decoration-color: currentColor; }
 
 h1, h2, h3, h4 { font-weight: 600; line-height: 1.25; }
 h1 { font-size: 27px; margin: 0 0 4px; }

@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Entry from '../components/Entry.astro';
 import { projects } from '../data/projects';
+import { publications } from '../data/publications';
 import { getCollection } from 'astro:content';
 import { formatDate } from '../lib/date';
 
@@ -10,41 +11,79 @@ const posts = (await getCollection('posts')).sort(
 );
 const slugOf = (id: string) => id.replace(/^\d{4}-\d{2}-\d{2}-/, '');
 const recent = posts.slice(0, 3);
-const fmt = formatDate;
 ---
-<Base title="Nate Rose">
+<Base title="Nathaniel Rose">
   <header class="identity">
     <picture>
       <source srcset="/images/headshot.webp" type="image/webp" />
-      <img src="/images/headshot.jpg" alt="Nate Rose" width="150" height="150" />
+      <img src="/images/headshot.jpg" alt="Nathaniel Rose" width="150" height="150" />
     </picture>
     <div>
-      <h1>Nate Rose</h1>
-      <p class="tagline">Software Engineer. Cloud &amp; Distributed Systems. Bay Area.</p>
+      <h1>Nathaniel Rose</h1>
+      <p class="tagline">Research Engineer. Neurotechnology &amp; Neurosecurity. Oakland / London.</p>
       <div class="contact">
-        <a href="mailto:nate@naterose.io">nate@naterose.io</a> <a href="/assets/NathanielRose_CV.pdf">[cv]</a>
+        <a href="mailto:nate@naterose.io">nate@naterose.io</a> <a href="/assets/NathanielRose_CV_2026.pdf">[cv]</a>
       </div>
     </div>
   </header>
 
   <p>
-    I build cloud SaaS applications, microservices, and big-data systems. I'm
-    interested in the infrastructure layer underneath machine learning — how
-    distributed systems are provisioned, orchestrated, and kept running.
+    I work on the security of neural data — the systems that carry it, the models
+    that read it, and the governance that should constrain both. Before that I
+    spent a decade building the data and ML infrastructure underneath other
+    people's models.
   </p>
 
   <h2>Bio</h2>
   <p>
-    I'm a Commercial Software Developer at <a href="https://microsoft.com">Microsoft</a>,
-    focused on cloud SaaS applications, microservices, and big-data solutions. Outside of
-    that I study neurotechnology and data science, and volunteer with <a href="https://eastbaynsbe.org">East Bay NSBE Jr.</a> I ride a 2012 Triumph Bonneville
-    T100, play alto sax, and spend as much time as I can boxing and windsurfing.
+    I'm co-founder and Executive Director of the <b>Cerberus Neurosecurity Research
+    Institute</b>, a nonprofit advancing brain-computer interface and neural data
+    security across four pillars: information transit, wetware, cognitive defense,
+    and neural governance. I'm also co-founder and CTO of <b>Lymbic AI</b> in London,
+    where we built EEG-based methods for privacy-preserving biometric
+    identification and raised pre-seed funding to pursue them.
   </p>
+  <p>
+    Earlier I was a Staff Data Platform Engineer at <b>Circle</b>, a Senior MLOps
+    Engineer at <b>Ripple</b>, and spent six years at <b>Microsoft</b> as an engineer and
+    technical evangelist working on Kubernetes, Terraform and ML pipelines. I
+    studied Computer Engineering at <b>Syracuse University</b> and took an MRes in
+    Neurotechnology at <b>Imperial College London</b>, in the Brain and Behavior Lab,
+    working on gaze selection and brain-machine interfaces.
+  </p>
+
+  <h2>Publications</h2>
+  <div class="entries">
+    {publications.map((p) => (
+      <Entry
+        title={p.title}
+        href={p.href}
+        when={p.year}
+        meta={p.meta}
+        desc={p.desc}
+        badge={p.badge}
+        external={Boolean(p.href)}
+      />
+    ))}
+  </div>
 
   <h2>Selected Projects</h2>
   <div class="entries">
-    {projects.map((p) => <Entry {...p} />)}
+    {projects.slice(0, 4).map((p) => (
+      <Entry
+        title={p.title}
+        href={p.href}
+        when={p.year}
+        meta={p.meta}
+        desc={p.desc}
+        poster={p.poster}
+        video={p.video}
+        badge={p.badge}
+        external={p.external}
+      />
+    ))}
   </div>
+  <p><a href="/projects/">All projects →</a></p>
 
   <h2>Recent Writing</h2>
   <div class="entries">
@@ -52,11 +91,11 @@ const fmt = formatDate;
       <Entry
         title={post.data.title}
         href={`/${slugOf(post.id)}/`}
-        meta={fmt(post.data.date)}
+        when={formatDate(post.data.date)}
         desc={post.data.excerpt}
         badge="Blog"
       />
     ))}
   </div>
-  <p><a href="/writing/">All writing →</a></p>
+  <p><a href="/writing/">All research &amp; writing →</a></p>
 </Base>

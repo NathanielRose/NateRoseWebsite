@@ -6,15 +6,14 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'Nate Rose — cloud engineering, distributed systems, and neurotechnology research.' } = Astro.props;
+const { title, description = 'Nathaniel Rose — research engineer working on neurotechnology, neurosecurity and machine learning.' } = Astro.props;
 
 const here = Astro.url.pathname;
 const nav = [
   { label: 'Main', href: '/' },
   { label: 'Writing', href: '/writing/' },
   { label: 'Projects', href: '/projects/' },
-  { label: 'Publications', href: '/publications/' },
-  { label: 'CV', href: '/assets/NathanielRose_CV.pdf' },
+  { label: 'CV', href: '/assets/NathanielRose_CV_2026.pdf' },
 ];
 
 const isCurrent = (href: string) =>
@@ -37,7 +36,7 @@ const isCurrent = (href: string) =>
       href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap"
     />
     <link rel="icon" href="/favicon.ico" />
-    <link rel="alternate" type="application/rss+xml" title="Nate Rose" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Nathaniel Rose" href="/feed.xml" />
   </head>
   <body>
     <nav class="nav">
@@ -53,7 +52,7 @@ const isCurrent = (href: string) =>
     <main class="wrap">
       <slot />
       <footer class="site">
-        Nate Rose · <a href="mailto:nate@naterose.io">nate@naterose.io</a> ·
+        Nathaniel Rose · <a href="mailto:nate@naterose.io">nate@naterose.io</a> ·
         <a href="https://github.com/nathanielrose">GitHub</a> ·
         <a href="https://linkedin.com/in/nathanielrose">LinkedIn</a>
       </footer>

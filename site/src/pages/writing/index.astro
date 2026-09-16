@@ -3,40 +3,67 @@ import Base from '../../layouts/Base.astro';
 import Entry from '../../components/Entry.astro';
 import { getCollection } from 'astro:content';
 import { SUBSTACK_URL, fetchSubstackPosts } from '../../data/substack';
+import { publications } from '../../data/publications';
 import { formatDate } from '../../lib/date';
 
 const slugOf = (id: string) => id.replace(/^\d{4}-\d{2}-\d{2}-/, '');
 
-const blog = (await getCollection('posts')).map((post) => ({
-  title: post.data.title,
-  href: `/${slugOf(post.id)}/`,
-  date: post.data.date,
-  desc: post.data.excerpt,
-  badge: 'Blog',
-  external: false,
+type Row = {
+  title: string;
+  href?: string;
+  when: string;
+  sort: number;
+  meta?: string;
+  desc?: string;
+  badge: string;
+  external?: boolean;
+};
+
+// Papers and preprints. Only a year is recorded, so they sort to the end of
+// their year rather than claiming a day they don't have.
+const papers: Row[] = publications.map((p) => ({
+  title: p.title,
+  href: p.href,
+  when: p.year,
+  sort: new Date(Number(p.year), 11, 31).valueOf(),
+  meta: p.meta,
+  desc: p.desc,
+  badge: p.badge,
+  external: Boolean(p.href),
 }));
 
-const newsletter = (await fetchSubstackPosts()).map((item) => ({
+const blog: Row[] = (await getCollection('posts')).map((post) => ({
+  title: post.data.title,
+  href: `/${slugOf(post.id)}/`,
+  when: formatDate(post.data.date),
+  sort: post.data.date.valueOf(),
+  desc: post.data.excerpt,
+  badge: 'Blog',
+}));
+
+const newsletter: Row[] = (await fetchSubstackPosts()).map((item) => ({
   title: item.title,
   href: item.href,
-  date: item.date,
+  when: formatDate(item.date),
+  sort: item.date.valueOf(),
   desc: item.excerpt,
   badge: 'Substack',
   external: true,
 }));
 
-// One list, newest first, regardless of where a piece lives.
-const all = [...blog, ...newsletter].sort((a, b) => b.date.valueOf() - a.date.valueOf());
-const fmt = formatDate;
+// One list, newest first. Papers, posts and newsletter issues sit together and
+// are told apart by their badge — this stays a single page until there is
+// enough of any one kind to justify splitting it.
+const all = [...papers, ...blog, ...newsletter].sort((a, b) => b.sort - a.sort);
 ---
-<Base title="Writing – Nate Rose">
-  <h1>Writing</h1>
+<Base title="Research & Writing – Nathaniel Rose">
+  <h1>Research &amp; Writing</h1>
 
   <div class="subscribe">
     <span>
       {SUBSTACK_URL
         ? 'Longer-form pieces go out on the newsletter first.'
-        : 'Newsletter not wired up yet — drop your Substack URL into src/data/substack.ts and these merge in automatically.'}
+        : 'Newsletter not wired up yet — drop your Substack URL into src/data/substack.ts and those issues merge into this list automatically.'}
     </span>
     {SUBSTACK_URL && (
       <a href={SUBSTACK_URL} target="_blank" rel="noopener"><b>Subscribe →</b></a>
@@ -44,14 +71,15 @@ const fmt = formatDate;
   </div>
 
   <div class="entries">
-    {all.map((item) => (
+    {all.map((row) => (
       <Entry
-        title={item.title}
-        href={item.href}
-        meta={fmt(item.date)}
-        desc={item.desc}
-        badge={item.badge}
-        external={item.external}
+        title={row.title}
+        href={row.href}
+        when={row.when}
+        meta={row.meta}
+        desc={row.desc}
+        badge={row.badge}
+        external={row.external}
       />
     ))}
   </div>

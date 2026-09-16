@@ -1,17 +1,27 @@
-// Scaffolding derived from the topics Nate has actually shipped and written
-// about. Edit freely — this file is the whole projects page.
+// Drawn from the 2026 CV — research work and named open-source projects,
+// newest first. These replace the Azure blog topics that were standing in
+// here before; those are posts, and they live on the Writing page.
 //
-// `video` is optional. Author clips as MP4 (or WebM), never GIF: the same
-// two-second loop is roughly 10-20x smaller as H.264 than as an animated GIF,
-// and GIF's 256-colour ceiling wrecks screen recordings.
+// NOTE ON IMAGERY: every entry is text-only right now. The previous thumbnails
+// were abstract ffmpeg patterns with no relationship to the work, which is
+// worse than no image. Add a real figure or screen capture per entry — a
+// gaze-tracking frame, a confusion matrix, a UR10 in Unity — and it appears
+// automatically.
+//
+// `video` is optional and should be MP4/WebM, never GIF: the same loop is
+// roughly 10-20x smaller as H.264, and GIF's 256-colour ceiling wrecks screen
+// recordings.
 //   ffmpeg -i capture.mov -vf "fps=24,scale=600:-2" -c:v libx264 \
 //          -pix_fmt yuv420p -crf 30 -movflags +faststart public/media/name.mp4
+//   ffmpeg -i public/media/name.mp4 -vframes 1 -q:v 4 public/media/name.jpg
 
 export interface Project {
   title: string;
-  href: string;
+  href?: string;
+  /** Institution, collaborators, stack — the citation-style second line. */
   meta?: string;
   desc?: string;
+  year?: string;
   poster?: string;
   video?: string;
   badge?: string;
@@ -20,35 +30,40 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    title: 'Monte Carlo Simulator on Azure Service Fabric',
-    href: '/guest-container-azure-service-fabric/',
-    meta: 'ASP.NET · Service Fabric · guest containers',
-    desc: 'Converting a monolithic simulation app into containerised microservices running on a Service Fabric cluster.',
-    poster: '/media/mandelbrot.jpg',
-    video: '/media/mandelbrot.mp4',
+    title: 'EEG Biometric Identification',
+    meta: 'Lymbic AI · CNNs · Muse2 · MLOps',
+    year: '2022–',
+    desc:
+      'Novel convolutional networks that identify a subject from resting-state EEG, as the basis for a privacy-preserving biometric. Includes the training pipeline behind it: feature extraction, preprocessing, deployment and edge compute.',
   },
   {
-    title: 'RabbitMQ on Kubernetes with Helm',
-    href: '/rabbitmq-acs-kubernetes-helm/',
-    meta: 'Kubernetes · Helm · Azure Container Service',
-    desc: 'Deploying a message-broker workload into a Kubernetes-orchestrated ACS cluster with templated Helm charts.',
-    poster: '/media/life.jpg',
-    video: '/media/life.mp4',
+    title: 'Enhanced VR & BMI Robot',
+    meta: 'Imperial College London · Brain and Behavior Lab · Prof. Aldo Faisal',
+    year: '2021',
+    desc:
+      'MRes thesis. Gaze tracking drives a virtual UR10 robot in Unity: decoded eye-fixation classifications are paired with machine learning and an action grammar to address the Midas touch problem in gaze selection.',
   },
   {
-    title: 'Java App Service CI/CD with Maven',
-    href: '/java-app-service-maven/',
-    meta: 'Java · Maven · VSTS pipelines',
-    desc: 'A build-and-release pipeline pushing Java web apps to Azure App Services on every commit.',
-    poster: '/media/gradients.jpg',
-    video: '/media/gradients.mp4',
+    title: 'EEG Brain State Decoding',
+    meta: 'UC Berkeley · reproduction study · dCNNs',
+    year: '2019',
+    desc:
+      'A reproduction of Tayeb et al. on classifying motor imagery from EEG. Read through memory-equivalent capacity, the shallow results do not reproduce, and the deep models’ accuracy turns out to come from a flawed pairing of sliding-window preprocessing with 5-fold cross validation.',
   },
   {
-    title: 'Social Media Integration with Logic Apps',
-    href: '/using-logic-apps-for-connecting-social-media/',
-    meta: 'Logic Apps · Azure Functions',
-    desc: 'Event-driven connectors wiring social platforms into a continuous deployment flow.',
-    poster: '/media/plasma.jpg',
-    video: '/media/plasma.mp4',
+    title: 'Project Bedrock',
+    href: 'https://github.com/microsoft/bedrock',
+    external: true,
+    meta: 'Microsoft · Terraform · Kubernetes · open source',
+    year: '2019',
+    desc:
+      'Open-source infrastructure orchestration for Kubernetes clusters, built around a GitOps workflow.',
+  },
+  {
+    title: 'Humanoid Predictive Rewards',
+    meta: 'Italian Institute of Technology · iCub · C++',
+    year: '2013',
+    desc:
+      'Summer residency in the robotics group: an algorithm in C++ used to study predictive reward behaviour in a humanoid platform, alongside work on motor control and tactile servoing.',
   },
 ];
