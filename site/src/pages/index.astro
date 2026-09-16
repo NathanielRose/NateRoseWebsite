@@ -53,16 +53,16 @@ const recent = posts.slice(0, 3);
   </p>
 
   <h2>Publications</h2>
-  <div class="entries">
+  <div class="entries tight">
     {publications.map((p) => (
       <Entry
         title={p.title}
         href={p.href}
         when={p.year}
         meta={p.meta}
-        desc={p.desc}
         badge={p.badge}
         external={Boolean(p.href)}
+        compact
       />
     ))}
   </div>
@@ -78,6 +78,7 @@ const recent = posts.slice(0, 3);
         desc={p.desc}
         poster={p.poster}
         video={p.video}
+        diagram={p.diagram}
         badge={p.badge}
         external={p.external}
       />
@@ -86,14 +87,14 @@ const recent = posts.slice(0, 3);
   <p><a href="/projects/">All projects →</a></p>
 
   <h2>Recent Writing</h2>
-  <div class="entries">
+  <div class="entries tight">
     {recent.map((post) => (
       <Entry
         title={post.data.title}
         href={`/${slugOf(post.id)}/`}
         when={formatDate(post.data.date)}
-        desc={post.data.excerpt}
         badge="Blog"
+        compact
       />
     ))}
   </div>

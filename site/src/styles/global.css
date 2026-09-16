@@ -245,3 +245,96 @@ footer.site {
     text-decoration: var(--shiki-dark-text-decoration) !important;
   }
 }
+
+/* ---- one-line citation rows ------------------------------------------- */
+.entries.tight { gap: 11px; }
+.entry.compact { display: block; }
+.entry.compact .entry-meta { display: inline; margin-left: 9px; }
+
+/* ---- project schematics ------------------------------------------------
+   Line diagrams of what each project does, shown where no real capture
+   exists. They sit still until the row is hovered or focused. */
+.thumb.diagram { background: transparent; border: 1px solid var(--rule); }
+.diagram svg { width: 100%; height: 100%; display: block; }
+.diagram .ink {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.diagram .node,
+.diagram .pupil,
+.diagram .commit,
+.diagram .eye,
+.diagram .pod,
+.diagram .c { fill: var(--bg); }
+.diagram .commit,
+.diagram .pupil { fill: var(--muted); stroke: none; }
+.diagram .check { stroke-width: 1.8; }
+.diagram .link,
+.diagram .rail,
+.diagram .axis { stroke-width: 1.2; opacity: .75; }
+
+.diagram .wave,
+.diagram .ray,
+.diagram .curve { stroke-dasharray: 5 4; }
+
+/* Everything animated is paused until the row is pointed at. */
+.entry .diagram .wave,
+.entry .diagram .ray,
+.entry .diagram .curve,
+.entry .diagram .commit,
+.entry .diagram .pupil,
+.entry .diagram .arm-b,
+.entry .diagram .grip,
+.entry .diagram .c,
+.entry .diagram .pod,
+.entry .diagram .eye { animation-play-state: paused; }
+.entry:hover .diagram *,
+.entry:focus-within .diagram * { animation-play-state: running; }
+
+.diagram .wave { animation: dashflow 1.1s linear infinite; }
+.diagram .ray { animation: dashflow 0.9s linear infinite; }
+.diagram .curve { animation: dashflow 1.4s linear infinite reverse; }
+.diagram .w2 { animation-duration: 1.35s; }
+.diagram .w3 { animation-duration: 0.95s; }
+
+.diagram .commit { animation: shuttle 1.8s ease-in-out infinite; }
+.diagram .k2 { animation-delay: .18s; }
+.diagram .k3 { animation-delay: .36s; }
+
+.diagram .pupil { animation: glance 2.2s ease-in-out infinite; }
+.diagram .eye { animation: blink 2.6s ease-in-out infinite; }
+.diagram .e2 { animation-delay: .1s; }
+
+.diagram .arm-b,
+.diagram .grip {
+  transform-box: view-box;
+  transform-origin: 96px 50px;
+  animation: swing 2.4s ease-in-out infinite;
+}
+
+.diagram .c { animation: cellpulse 2.2s ease-in-out infinite; }
+.diagram .c0 { animation-delay: 0s; }
+.diagram .c4 { animation-delay: .25s; }
+.diagram .c8 { animation-delay: .5s; }
+.diagram .c1, .diagram .c3 { animation-delay: .9s; }
+.diagram .c2, .diagram .c6 { animation-delay: 1.15s; }
+.diagram .c5, .diagram .c7 { animation-delay: 1.4s; }
+
+.diagram .pod { animation: cellpulse 1.9s ease-in-out infinite; }
+.diagram .p2 { animation-delay: .2s; }
+.diagram .p3 { animation-delay: .4s; }
+.diagram .p4 { animation-delay: .6s; }
+
+@keyframes dashflow { to { stroke-dashoffset: -18; } }
+@keyframes shuttle { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(16px); } }
+@keyframes glance { 0%, 100% { transform: translateX(0); } 45% { transform: translateX(7px); } }
+@keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.15); } }
+@keyframes swing { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-16deg); } }
+@keyframes cellpulse { 0%, 100% { fill: var(--bg); } 50% { fill: var(--rule); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .diagram * { animation: none !important; }
+}

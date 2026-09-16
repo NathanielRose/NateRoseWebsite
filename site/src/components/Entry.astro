@@ -1,5 +1,6 @@
 ---
 import MediaThumb from './MediaThumb.astro';
+import ProjectDiagram from './ProjectDiagram.astro';
 
 interface Props {
   title: string;
@@ -8,37 +9,54 @@ interface Props {
   href?: string;
   /** Institution, authors, stack. */
   meta?: string;
-  /** Date or year, shown ahead of `meta` on the same line. */
+  /** Date or year, shown ahead of `meta`. */
   when?: string;
   desc?: string;
   poster?: string;
   video?: string;
+  /** Id of a schematic in ProjectDiagram, used when there is no capture. */
+  diagram?: string;
   badge?: string;
   external?: boolean;
+  /** One-line citation style: title, badge and metadata on a single row. */
+  compact?: boolean;
 }
-const { title, href, meta, when, desc, poster, video, badge, external = false } = Astro.props;
+const {
+  title, href, meta, when, desc, poster, video, diagram, badge,
+  external = false, compact = false,
+} = Astro.props;
 
-// Rows without artwork collapse to a single column rather than showing a
-// placeholder — a column of identical grey boxes reads as noise.
-const hasMedia = Boolean(poster || video);
+const hasMedia = !compact && Boolean(poster || video || diagram);
 const linkAttrs = external ? { target: '_blank', rel: 'noopener' } : {};
 const metaLine = [when, meta].filter(Boolean).join(' · ');
+
+const Title = href ? 'a' : 'span';
+const titleAttrs = href ? { href, ...linkAttrs } : {};
 ---
-<article class:list={['entry', !hasMedia && 'no-media']}>
-  {hasMedia && href && (
-    <a href={href} {...linkAttrs} aria-hidden="true" tabindex="-1">
-      <MediaThumb poster={poster ?? '/images/placeholder.svg'} video={video} alt="" />
-    </a>
-  )}
-  {hasMedia && !href && (
-    <MediaThumb poster={poster ?? '/images/placeholder.svg'} video={video} alt="" />
-  )}
-  <div>
-    {href
-      ? <a class="entry-title" href={href} {...linkAttrs}>{title}</a>
-      : <span class="entry-title">{title}</span>
-    }{badge && <span class="badge">{badge}</span>}
-    {metaLine && <div class="entry-meta">{metaLine}</div>}
-    {desc && <p class="entry-desc">{desc}</p>}
-  </div>
-</article>
+{compact ? (
+  <article class="entry compact">
+    <Title class="entry-title" {...titleAttrs}>{title}</Title>{badge && <span class="badge">{badge}</span>}
+    {metaLine && <span class="entry-meta">{metaLine}</span>}
+  </article>
+) : (
+  <article class:list={['entry', !hasMedia && 'no-media']}>
+    {hasMedia && (
+      href ? (
+        <a href={href} {...linkAttrs} aria-hidden="true" tabindex="-1">
+          {diagram
+            ? <ProjectDiagram id={diagram} />
+            : <MediaThumb poster={poster ?? '/images/placeholder.svg'} video={video} alt="" />}
+        </a>
+      ) : (
+        diagram
+          ? <ProjectDiagram id={diagram} />
+          : <MediaThumb poster={poster ?? '/images/placeholder.svg'} video={video} alt="" />
+      )
+    )}
+    <div>
+      <Title class="entry-title" {...titleAttrs}>{title}</Title>{badge && <span class="badge">{badge}</span>}
+      {metaLine && <div class="entry-meta">{metaLine}</div>}
+      {desc && <p class="entry-desc">{desc}</p>}
+    </div>
+  </article>
+)}

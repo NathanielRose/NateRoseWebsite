@@ -70,16 +70,16 @@ const all = [...papers, ...blog, ...newsletter].sort((a, b) => b.sort - a.sort);
     )}
   </div>
 
-  <div class="entries">
+  <div class="entries tight">
     {all.map((row) => (
       <Entry
         title={row.title}
         href={row.href}
         when={row.when}
         meta={row.meta}
-        desc={row.desc}
         badge={row.badge}
         external={row.external}
+        compact
       />
     ))}
   </div>

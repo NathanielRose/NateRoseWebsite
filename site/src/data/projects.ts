@@ -24,6 +24,8 @@ export interface Project {
   year?: string;
   poster?: string;
   video?: string;
+  /** Schematic id from ProjectDiagram, used until a real capture exists. */
+  diagram?: string;
   badge?: string;
   external?: boolean;
 }
@@ -35,6 +37,7 @@ export const projects: Project[] = [
     year: '2022–',
     desc:
       'Novel convolutional networks that identify a subject from resting-state EEG, as the basis for a privacy-preserving biometric. Includes the training pipeline behind it: feature extraction, preprocessing, deployment and edge compute.',
+    diagram: 'eeg-biometric',
   },
   {
     title: 'Enhanced VR & BMI Robot',
@@ -42,6 +45,7 @@ export const projects: Project[] = [
     year: '2021',
     desc:
       'MRes thesis. Gaze tracking drives a virtual UR10 robot in Unity: decoded eye-fixation classifications are paired with machine learning and an action grammar to address the Midas touch problem in gaze selection.',
+    diagram: 'gaze-robot',
   },
   {
     title: 'EEG Brain State Decoding',
@@ -49,6 +53,7 @@ export const projects: Project[] = [
     year: '2019',
     desc:
       'A reproduction of Tayeb et al. on classifying motor imagery from EEG. Read through memory-equivalent capacity, the shallow results do not reproduce, and the deep models’ accuracy turns out to come from a flawed pairing of sliding-window preprocessing with 5-fold cross validation.',
+    diagram: 'eeg-decode',
   },
   {
     title: 'Project Bedrock',
@@ -58,9 +63,13 @@ export const projects: Project[] = [
     year: '2019',
     desc:
       'Open-source infrastructure orchestration for Kubernetes clusters, built around a GitOps workflow.',
+    diagram: 'gitops-k8s',
   },
   {
     title: 'Humanoid Predictive Rewards',
+    href: 'http://www.icub.org/school/2014/',
+    external: true,
+    diagram: 'icub-reward',
     meta: 'Italian Institute of Technology · iCub · C++',
     year: '2013',
     desc:
