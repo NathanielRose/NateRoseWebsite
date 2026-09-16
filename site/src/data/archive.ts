@@ -57,7 +57,8 @@ export const archived: ArchivedPost[] = [
       'https://ripple.com/insights/diversity-in-crypto-and-web3-a-discussion-with-brazils-tech-community/',
     originalLive: true,
     date: '2022-11-11',
-    excerpt: 'A panel discussion on diversity in crypto and Web3 with Brazil’s tech community.',
+    excerpt:
+      'A panel with Brazil’s tech community, convened through Black at Ripple during Nathaniel Rose’s tenure as its president. The piece is credited to Team Ripple and does not name individual organisers.',
   },
   {
     slug: 'building-ci-cd-with-airflow-gitlab-and-terraform-in-gcp',

@@ -38,7 +38,7 @@ const titleAttrs = href ? { href, ...linkAttrs } : {};
 ---
 {compact ? (
   <article class="entry compact">
-    <Title class="entry-title" {...titleAttrs}>{title}</Title>{badge && <span class="badge">{badge}</span>}
+    <Title class="entry-title" {...titleAttrs}>{title}</Title>{badge && <span class="badge" data-badge={badge}>{badge}</span>}
     {metaLine && <span class="entry-meta">{metaLine}</span>}
     {altHref && <a class="entry-alt" href={altHref}>[{altLabel}]</a>}
   </article>
@@ -58,7 +58,7 @@ const titleAttrs = href ? { href, ...linkAttrs } : {};
       )
     )}
     <div>
-      <Title class="entry-title" {...titleAttrs}>{title}</Title>{badge && <span class="badge">{badge}</span>}
+      <Title class="entry-title" {...titleAttrs}>{title}</Title>{badge && <span class="badge" data-badge={badge}>{badge}</span>}
       {metaLine && <div class="entry-meta">{metaLine}</div>}
       {desc && <p class="entry-desc">{desc}</p>}
     </div>

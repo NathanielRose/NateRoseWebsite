@@ -345,27 +345,6 @@ footer.site {
 .forms dt:first-child { margin-top: 0; }
 .forms dd { margin: 3px 0 0; color: var(--fg); }
 
-/* ---- career arc -------------------------------------------------------- */
-.arc {
-  list-style: none;
-  margin: 0 0 22px;
-  padding: 0;
-  border-top: 1px solid var(--rule);
-}
-.arc li {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 7px 0;
-  border-bottom: 1px solid var(--rule);
-}
-.arc li span {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--muted);
-  text-align: right;
-}
-
 /* ---- archived third-party articles ------------------------------------ */
 .archived-body { margin-top: 26px; }
 .archived-body h1 { font-size: 24px; margin: 30px 0 10px; }
@@ -383,10 +362,33 @@ footer.site {
   text-align: center;
 }
 
-@media (max-width: 620px) {
-  .arc li { flex-direction: column; gap: 2px; }
-  .arc li span { text-align: left; }
-}
-
 .entry-alt { font-family: var(--font-mono); font-size: 12px; margin-left: 8px; color: var(--muted); }
 .entry-alt:hover { color: var(--link); }
+
+/* ---- justified bio ----------------------------------------------------- */
+/* Justification without hyphenation opens rivers of whitespace in a narrow
+   measure, so hyphens are on. */
+.bio p {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* ---- badge colours ------------------------------------------------------
+   Low-saturation tints so the list still reads as one surface; the colour
+   distinguishes kinds at a glance rather than competing with the titles. */
+.badge[data-badge="Publication"] { background: #e4e9f7; color: #2b3d73; }
+.badge[data-badge="Article"]     { background: #e2f0ea; color: #1f5745; }
+.badge[data-badge="Talk"]        { background: #fbecdc; color: #7c4715; }
+.badge[data-badge="Podcast"]     { background: #efe7f7; color: #4e3170; }
+.badge[data-badge="Substack"]    { background: #fce6dc; color: #8b3a17; }
+.badge[data-badge="Blog"]        { background: #ececec; color: #4a4a4a; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .badge[data-badge="Publication"] { background: #222b45; color: #a8bdf0; }
+  :root:not([data-theme="light"]) .badge[data-badge="Article"]     { background: #1c3029; color: #8fd3ba; }
+  :root:not([data-theme="light"]) .badge[data-badge="Talk"]        { background: #35281a; color: #e0b483; }
+  :root:not([data-theme="light"]) .badge[data-badge="Podcast"]     { background: #2a2137; color: #c3a9e4; }
+  :root:not([data-theme="light"]) .badge[data-badge="Substack"]    { background: #37231a; color: #e3a98c; }
+  :root:not([data-theme="light"]) .badge[data-badge="Blog"]        { background: #2a2a2e; color: #a6a6a6; }
+}

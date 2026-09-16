@@ -2,18 +2,14 @@
 import Base from '../layouts/Base.astro';
 import Entry from '../components/Entry.astro';
 import { projects } from '../data/projects';
-import { publications } from '../data/publications';
-import { getCollection } from 'astro:content';
-import { formatDate } from '../lib/date';
+import { getFeed } from '../lib/entries';
 
-const posts = (await getCollection('posts')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
-const slugOf = (id: string) => id.replace(/^\d{4}-\d{2}-\d{2}-/, '');
-const recent = posts.slice(0, 3);
+// Same merged feed as /writing/, so "recent" here means genuinely recent
+// rather than just the newest blog post.
+const recent = (await getFeed()).slice(0, 5);
 
-// The framing, and the career arc below it, follow Nathaniel's own positioning
-// slide rather than the CV's reverse-chronological job list.
+// The framing, and the career arc behind it, follow Nathaniel's own
+// positioning slide rather than the CV's reverse-chronological job list.
 const forms = [
   {
     name: 'Human intelligence',
@@ -30,14 +26,6 @@ const forms = [
     body:
       'How institutions think. Education policy, standardization, and governance, because standards decide who neurotech is safe for.',
   },
-];
-
-const arc = [
-  { where: 'Microsoft', what: 'Software engineering' },
-  { where: 'Imperial College London', what: 'MRes Neurotechnology' },
-  { where: 'Ripple', what: 'Payments infrastructure' },
-  { where: 'Circle', what: 'Stablecoin infrastructure' },
-  { where: 'New venture', what: 'Neurosecurity, cognitive security' },
 ];
 ---
 <Base title="Nathaniel Rose">
@@ -73,40 +61,24 @@ const arc = [
   </dl>
 
   <h2>Bio</h2>
-  <ol class="arc">
-    {arc.map((step) => (
-      <li><b>{step.where}</b><span>{step.what}</span></li>
-    ))}
-  </ol>
-  <p>
-    I started as an engineer at <b>Microsoft</b>, working on Kubernetes, Terraform and
-    ML pipelines, then took an MRes in Neurotechnology at <b>Imperial College London</b>
-    in the Brain and Behavior Lab, on gaze selection and brain-machine interfaces.
-    I spent the next several years on financial infrastructure — senior MLOps
-    engineer at <b>Ripple</b>, then staff data platform engineer at <b>Circle</b> — building
-    feature stores, data catalogs and the orchestration underneath them.
-  </p>
-  <p>
-    Along the way I co-founded <b>Lymbic AI</b> in London, which built EEG-based
-    privacy-preserving biometrics and has since closed, and helped start the
-    <b>Cerberus Neurosecurity Research Institute</b>. I'm now working on neurosecurity
-    and cognitive security independently. Outside of that: motorcycles, boxing,
-    sailing, and the philosophy of mind.
-  </p>
-
-  <h2>Publications</h2>
-  <div class="entries tight">
-    {publications.map((p) => (
-      <Entry
-        title={p.title}
-        href={p.href}
-        when={p.year}
-        meta={p.meta}
-        badge={p.badge}
-        external={Boolean(p.href)}
-        compact
-      />
-    ))}
+  <div class="bio">
+    <p>
+      I started as an engineer at <b>Microsoft</b>, working on Kubernetes, Terraform
+      and ML pipelines, then took an MRes in Neurotechnology at <b>Imperial College
+      London</b> in the Brain and Behavior Lab, on gaze selection and brain-machine
+      interfaces. I spent the next several years on financial infrastructure — senior
+      MLOps engineer at <b>Ripple</b>, where I also served as president of Black at
+      Ripple, then staff data platform engineer at <b>Circle</b> — building feature
+      stores, data catalogs and the orchestration underneath them.
+    </p>
+    <p>
+      Along the way I co-founded <b>Lymbic AI</b> in London, which built EEG-based
+      privacy-preserving biometrics and has since closed, and helped start the
+      <b>Cerberus Neurosecurity Research Institute</b>. I'm now working on neurosecurity
+      and cognitive security independently: the systems that move neural data, the
+      models that read it, and the standards that will decide who any of it is safe
+      for. Outside of that, motorcycles, boxing, sailing, and the philosophy of mind.
+    </p>
   </div>
 
   <h2>Selected Projects</h2>
@@ -128,14 +100,17 @@ const arc = [
   </div>
   <p><a href="/projects/">All projects →</a></p>
 
-  <h2>Recent Writing</h2>
+  <h2>Recent</h2>
   <div class="entries tight">
-    {recent.map((post) => (
+    {recent.map((row) => (
       <Entry
-        title={post.data.title}
-        href={`/${slugOf(post.id)}/`}
-        when={formatDate(post.data.date)}
-        badge="Blog"
+        title={row.title}
+        href={row.href}
+        when={row.when}
+        meta={row.meta}
+        badge={row.badge}
+        external={row.external}
+        altHref={row.altHref}
         compact
       />
     ))}
