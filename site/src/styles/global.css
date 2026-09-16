@@ -378,7 +378,7 @@ footer.site {
 /* ---- badge colours ------------------------------------------------------
    Low-saturation tints so the list still reads as one surface; the colour
    distinguishes kinds at a glance rather than competing with the titles. */
-.badge[data-badge="Publication"] { background: #e4e9f7; color: #2b3d73; }
+.badge[data-badge="Paper"]       { background: #e4e9f7; color: #2b3d73; }
 .badge[data-badge="Article"]     { background: #e2f0ea; color: #1f5745; }
 .badge[data-badge="Talk"]        { background: #fbecdc; color: #7c4715; }
 .badge[data-badge="Podcast"]     { background: #efe7f7; color: #4e3170; }
@@ -387,7 +387,7 @@ footer.site {
 .badge[data-badge="Archived"]    { background: #eae7e1; color: #5c5346; }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .badge[data-badge="Publication"] { background: #222b45; color: #a8bdf0; }
+  :root:not([data-theme="light"]) .badge[data-badge="Paper"]       { background: #222b45; color: #a8bdf0; }
   :root:not([data-theme="light"]) .badge[data-badge="Article"]     { background: #1c3029; color: #8fd3ba; }
   :root:not([data-theme="light"]) .badge[data-badge="Talk"]        { background: #35281a; color: #e0b483; }
   :root:not([data-theme="light"]) .badge[data-badge="Podcast"]     { background: #2a2137; color: #c3a9e4; }

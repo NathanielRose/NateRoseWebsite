@@ -2,14 +2,20 @@
 // The "other interests" row from Nathaniel's positioning slide. Line icons at
 // 18px, drawn in currentColor so they follow the text in either palette and
 // need no separate dark-mode assets.
+//
+// The motorcycle is deliberately built around an engine block, front fork and
+// handlebar rather than a diamond frame — a two-circles-and-a-triangle glyph
+// reads as a bicycle at this size.
 ---
 <ul class="interests" aria-label="Other interests">
   <li>
     <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="5" cy="16.5" r="4" />
-      <circle cx="19" cy="16.5" r="4" />
-      <path d="M5 16.5 L9.5 9 L15 9 M19 16.5 L15.5 9.5" />
-      <path d="M8 6.5 L11.5 6.5 M13.5 9 L17 9" />
+      <circle cx="5" cy="16.5" r="3.6" />
+      <circle cx="19" cy="16.5" r="3.6" />
+      <rect x="8.6" y="11.4" width="6.4" height="4.2" rx="1.2" />
+      <path d="M5 16.5 L8.6 15 M15 15 L19 16.5" />
+      <path d="M13.6 11.4 L16.8 7.6 L20 7.6" />
+      <path d="M8.6 11.6 L7 9 L10.4 9" />
     </svg>
     <span>Motorcycles</span>
   </li>
@@ -31,9 +37,12 @@
   </li>
   <li>
     <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M9.5 17 V6.5 L18 4.5 V15" />
-      <circle cx="7" cy="17.5" r="2.5" />
-      <circle cx="15.5" cy="15.5" r="2.5" />
+      <path d="M8.2 2.6 L10 4.2" />
+      <path d="M10 4.2 q1.6 1.6 .6 3.4 q-2 3.6-1.6 7.6 q.5 4.6 5 5.2 q4.4 .6 5.8-3.4" />
+      <path d="M17.4 19.6 L21.4 21" />
+      <circle cx="10.6" cy="10.4" r=".85" />
+      <circle cx="10.4" cy="13.6" r=".85" />
+      <circle cx="11.4" cy="16.6" r=".85" />
     </svg>
     <span>Jazz</span>
   </li>

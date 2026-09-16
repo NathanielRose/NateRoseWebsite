@@ -11,7 +11,7 @@ export interface Publication {
   meta?: string;
   /** Shown verbatim. Year only — no month is displayed in a citation line. */
   year: string;
-  badge: 'Publication';
+  badge: 'Paper';
 }
 
 export const publications: Publication[] = [
@@ -20,6 +20,6 @@ export const publications: Publication[] = [
     href: 'https://arxiv.org/abs/2607.10451',
     meta: 'B. Bagley, N. Rose, Q. Kilbourn, M. Canham. arXiv:2607.10451 [cs.CR]',
     year: '2026',
-    badge: 'Publication',
+    badge: 'Paper',
   },
 ];
