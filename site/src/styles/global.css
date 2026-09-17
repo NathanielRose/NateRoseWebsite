@@ -499,3 +499,19 @@ h1 .badge { vertical-align: 6px; }
     mix-blend-mode: normal;
   }
 }
+
+/* ---- sea rule -----------------------------------------------------------
+   A 3px band across the very top, in the sea and stone sampled from the old
+   site's hero photograph. Fixed rather than scrolled away, so the accent is
+   present on every screen without occupying any layout space. */
+.sea-rule {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 20;
+  background: linear-gradient(90deg, var(--sea-deep), var(--sea), var(--stone-light));
+}
+/* Keep the nav clear of the band. */
+.nav { padding-top: 3px; }

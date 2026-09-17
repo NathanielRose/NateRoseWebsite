@@ -35,10 +35,12 @@ const isCurrent = (href: string) =>
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap"
     />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="alternate" type="application/rss+xml" title="Nathaniel Rose" href="/feed.xml" />
   </head>
   <body>
+    <div class="sea-rule" aria-hidden="true"></div>
     <nav class="nav">
       <div class="nav-inner">
         {nav.map((item) => (
