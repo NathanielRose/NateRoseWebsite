@@ -433,8 +433,15 @@ h1 .badge { vertical-align: 6px; }
   grid-template-columns: repeat(3, 1fr);
   gap: 0 26px;
 }
-.forms.cols dt { margin-top: 0; grid-row: 1; }
-.forms.cols dd { grid-row: 2; font-size: 15.5px; line-height: 1.5; }
+.forms.cols dt { margin-top: 0; grid-row: 1; text-align: center; }
+.forms.cols dd {
+  grid-row: 2;
+  font-size: 15.5px;
+  line-height: 1.5;
+  text-align: center;
+}
+/* Centred text means the figure has to centre with it. */
+.forms.cols .form-figure-box { margin-left: auto; margin-right: auto; }
 
 @media (max-width: 700px) {
   .forms.cols { grid-template-columns: 1fr; gap: 0; }
