@@ -37,11 +37,23 @@ export const projects: Project[] = [
     year: '2022–',
     desc:
       'Novel convolutional networks that identify a subject from resting-state EEG, as the basis for a privacy-preserving biometric. Includes the training pipeline behind it: feature extraction, preprocessing, deployment and edge compute.',
-    // A capture takes precedence over the schematic. NOTE: this clip is
-    // DeepFaceLive doing *facial* landmark tracking, not EEG — see the
-    // caveat raised when it was added.
+    // The Lymbic demo, cut 0:10-0:14.2 so it spans the moment the classifier
+    // resolves from "(too noisy)" to a named subject at 100% confidence.
     poster: '/media/eeg-biometric.jpg',
     video: '/media/eeg-biometric.mp4',
+  },
+  {
+    title: 'DeepFaceLive',
+    href: 'https://github.com/iperov/DeepFaceLive',
+    external: true,
+    meta: 'Open source · real-time face swap · Python',
+    year: '2024',
+    // TODO: replace with what you actually built or changed — this describes
+    // the pipeline, not your contribution to it.
+    desc:
+      'Time spent inside the open-source real-time face-swap pipeline: YOLOv5 detection, face alignment and live landmark tracking over a webcam stream.',
+    poster: '/media/deepfacelive.jpg',
+    video: '/media/deepfacelive.mp4',
   },
   {
     title: 'Enhanced VR & BMI Robot',
@@ -49,7 +61,8 @@ export const projects: Project[] = [
     year: '2021',
     desc:
       'MRes thesis. Gaze tracking drives a virtual UR10 robot in Unity: decoded eye-fixation classifications are paired with machine learning and an action grammar to address the Midas touch problem in gaze selection.',
-    diagram: 'gaze-robot',
+    poster: '/media/vr-bmi-robot.jpg',
+    video: '/media/vr-bmi-robot.mp4',
   },
   {
     title: 'EEG Brain State Decoding',
