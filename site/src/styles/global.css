@@ -466,14 +466,17 @@ h1 .badge { vertical-align: 6px; }
    baseline rather than floating at different heights. */
 .form-figure-box {
   display: flex;
-  align-items: flex-end;
-  height: 150px;
+  align-items: center;
+  justify-content: center;
+  width: 170px;
+  height: 170px;
   margin-bottom: 12px;
 }
 .form-figure {
-  max-width: 100%;
-  max-height: 150px;
-  width: auto;
+  width: 170px;
+  height: 170px;
+  /* Both sources are square, so this crops nothing. */
+  object-fit: contain;
   /* The scans have white backgrounds; multiply drops the paper and keeps the ink. */
   mix-blend-mode: multiply;
 }
