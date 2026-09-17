@@ -150,21 +150,6 @@ h3 { font-size: 17px; margin: 28px 0 8px; }
 }
 .thumb video { position: absolute; inset: 0; opacity: 0; transition: opacity .18s ease; }
 .thumb.is-playing video { opacity: 1; }
-.thumb-hint {
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: .02em;
-  background: rgba(0,0,0,.62);
-  color: #fff;
-  border-radius: 2px;
-  padding: 1px 4px;
-  pointer-events: none;
-  transition: opacity .18s ease;
-}
-.thumb.is-playing .thumb-hint { opacity: 0; }
 
 /* ---- prose ------------------------------------------------------------- */
 .prose { font-size: 17px; }
@@ -227,10 +212,6 @@ footer.site {
 
 .entry.no-media { grid-template-columns: 1fr; }
 
-/* No hover on touch: the tile autoplays when scrolled to, so the hint lies. */
-@media (pointer: coarse) {
-  .thumb-hint { display: none; }
-}
 
 /* Shiki emits both palettes as custom properties; pick the dark one when the
    visitor's system asks for dark. Without this the code blocks keep the light
@@ -460,6 +441,13 @@ h1 .badge { vertical-align: 6px; }
   gap: 8px 18px;
   margin-top: 22px;
 }
+.hint {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  margin: 0 0 22px;
+}
+
 .interests-label {
   font-family: var(--font-mono);
   font-size: 12.5px;

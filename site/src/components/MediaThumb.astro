@@ -11,10 +11,18 @@ const { poster, video, alt } = Astro.props;
   <img src={poster} alt={alt} loading="lazy" decoding="async" width="150" height="90" />
   {video && (
     <>
-      <video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+      <video
+        muted
+        loop
+        playsinline
+        preload="none"
+        disablePictureInPicture
+        disableRemotePlayback
+        aria-hidden="true"
+        tabindex="-1"
+      >
         <source src={video} type="video/mp4" />
       </video>
-      <span class="thumb-hint">HOVER</span>
     </>
   )}
 </span>
