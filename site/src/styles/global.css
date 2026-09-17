@@ -452,13 +452,21 @@ h1 .badge { vertical-align: 6px; }
   .form-figure-box:empty { display: none; }
 }
 
+/* Label and icons share one line, wrapping together on narrow screens. */
+.interests-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 22px;
+}
 .interests-label {
   font-family: var(--font-mono);
   font-size: 12.5px;
   color: var(--muted);
-  margin: 20px 0 0;
+  margin: 0;
 }
-.interests { margin-top: 8px; }
+.interests { margin: 0; }
 
 /* Citation rows sit a step below body copy: the list is scanned, not read. */
 /* Sized so the longest title still shares a line with its badge; the badge
