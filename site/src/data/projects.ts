@@ -37,7 +37,11 @@ export const projects: Project[] = [
     year: '2022–',
     desc:
       'Novel convolutional networks that identify a subject from resting-state EEG, as the basis for a privacy-preserving biometric. Includes the training pipeline behind it: feature extraction, preprocessing, deployment and edge compute.',
-    diagram: 'eeg-biometric',
+    // A capture takes precedence over the schematic. NOTE: this clip is
+    // DeepFaceLive doing *facial* landmark tracking, not EEG — see the
+    // caveat raised when it was added.
+    poster: '/media/eeg-biometric.jpg',
+    video: '/media/eeg-biometric.mp4',
   },
   {
     title: 'Enhanced VR & BMI Robot',
@@ -67,10 +71,13 @@ export const projects: Project[] = [
   },
   {
     title: 'Humanoid Predictive Rewards',
-    href: 'http://www.icub.org/school/2014/',
+    // Links to the VVV2013 summer school video rather than the 2014 school
+    // page — VVV13 is the year of the residency. Its Vimeo still is a title
+    // card of another attendee, so the schematic stays as the graphic.
+    href: 'https://vimeo.com/70390713',
     external: true,
     diagram: 'icub-reward',
-    meta: 'Italian Institute of Technology · iCub · C++',
+    meta: 'Italian Institute of Technology · iCub · VVV2013 · C++',
     year: '2013',
     desc:
       'Summer residency in the robotics group: an algorithm in C++ used to study predictive reward behaviour in a humanoid platform, alongside work on motor control and tactile servoing.',
