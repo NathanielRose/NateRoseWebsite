@@ -450,3 +450,7 @@ h1 .badge { vertical-align: 6px; }
   margin: 20px 0 0;
 }
 .interests { margin-top: 8px; }
+
+/* Citation rows sit a step below body copy: the list is scanned, not read. */
+.entry.compact .entry-title { font-size: 15.5px; }
+.entry.compact .entry-meta { font-size: 12.5px; }
