@@ -67,7 +67,12 @@ export const projects: Project[] = [
     year: '2019',
     desc:
       'Open-source infrastructure orchestration for Kubernetes clusters, built around a GitOps workflow.',
-    diagram: 'gitops-k8s',
+    // Still: the Bedrock GitOps workflow diagram. Hover cycles that, the
+    // Spektate visualiser built for Bedrock, and the Cobalt Terraform
+    // workflow. Two of the supplied images were a different Bedrock — see
+    // the note raised when these were added — and are not used.
+    poster: '/media/bedrock.jpg',
+    video: '/media/bedrock.mp4',
   },
   {
     title: 'Humanoid Predictive Rewards',
