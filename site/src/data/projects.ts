@@ -67,10 +67,11 @@ export const projects: Project[] = [
     year: '2019',
     desc:
       'Open-source infrastructure orchestration for Kubernetes clusters, built around a GitOps workflow.',
-    // Still: the Bedrock GitOps workflow diagram. Hover cycles that, the
-    // Spektate visualiser built for Bedrock, and the Cobalt Terraform
-    // workflow. Two of the supplied images were a different Bedrock — see
-    // the note raised when these were added — and are not used.
+    // Still: the microsoft/bedrock repo card, which is also the loop's first
+    // and last frame, so hovering animates the image already on screen rather
+    // than cutting to a different one. The loop then runs the GitOps workflow
+    // diagram, the Spektate visualiser built for Bedrock, and the Cobalt
+    // Terraform workflow.
     poster: '/media/bedrock.jpg',
     video: '/media/bedrock.mp4',
   },
