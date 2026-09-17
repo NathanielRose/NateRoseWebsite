@@ -211,7 +211,6 @@ footer.site {
   /* The lead paragraph centres with it; the bio stays ranged left, because
      justified text at phone width opens rivers between words. */
   main > p:first-of-type { text-align: center; }
-  .bio p { text-align: left; hyphens: none; }
   .interests-row { justify-content: center; }
   .entry { grid-template-columns: 110px 1fr; gap: 14px; }
   .thumb { width: 110px; }
@@ -536,3 +535,14 @@ h1 .badge { vertical-align: 6px; }
   stroke-linejoin: round;
 }
 a:hover .ext, .entry-title:hover + .ext { stroke: var(--link); }
+
+/* Placed last so it wins over the justified .bio p rule above: justified text
+   at phone width opens rivers between words, and hyphenation there breaks
+   short lines badly. */
+@media (max-width: 620px) {
+  .bio p {
+    text-align: left;
+    hyphens: none;
+    -webkit-hyphens: none;
+  }
+}
