@@ -204,7 +204,15 @@ footer.site {
 }
 
 @media (max-width: 620px) {
-  .identity { flex-direction: column; align-items: flex-start; gap: 16px; }
+  /* Stacked, a left-aligned portrait over centred columns reads as misaligned,
+     so the whole identity block centres. */
+  .identity { flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+  .identity .contact { line-height: 1.9; }
+  /* The lead paragraph centres with it; the bio stays ranged left, because
+     justified text at phone width opens rivers between words. */
+  main > p:first-of-type { text-align: center; }
+  .bio p { text-align: left; hyphens: none; }
+  .interests-row { justify-content: center; }
   .entry { grid-template-columns: 110px 1fr; gap: 14px; }
   .thumb { width: 110px; }
   .nav-inner { justify-content: flex-start; gap: 14px; }
@@ -513,3 +521,18 @@ h1 .badge { vertical-align: 6px; }
 }
 /* Keep the nav clear of the band. */
 .nav { padding-top: 3px; }
+
+/* ---- external-link marker ----------------------------------------------
+   Rows that open somewhere else say so before they are clicked. */
+.ext {
+  width: 9px;
+  height: 9px;
+  margin-left: 5px;
+  vertical-align: 1px;
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+a:hover .ext, .entry-title:hover + .ext { stroke: var(--link); }

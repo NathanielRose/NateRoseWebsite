@@ -39,7 +39,7 @@ const titleAttrs = href ? { href, ...linkAttrs } : {};
 {compact ? (
   <article class="entry compact">
     <div class="entry-head">
-      <Title class="entry-title" {...titleAttrs}>{title}</Title>{badge && <span class="badge" data-badge={badge}>{badge}</span>}
+      <Title class="entry-title" {...titleAttrs}>{title}</Title>{external && href && <svg class="ext" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5 H2.5 v7 h7 v-2"/><path d="M7 2.5 h2.5 V5"/><path d="M9.4 2.6 L5.6 6.4"/></svg>}{badge && <span class="badge" data-badge={badge}>{badge}</span>}
     </div>
     {metaLine && <div class="entry-meta">{metaLine}</div>}
   </article>
@@ -59,7 +59,7 @@ const titleAttrs = href ? { href, ...linkAttrs } : {};
       )
     )}
     <div>
-      <Title class="entry-title" {...titleAttrs}>{title}</Title>{badge && <span class="badge" data-badge={badge}>{badge}</span>}
+      <Title class="entry-title" {...titleAttrs}>{title}</Title>{external && href && <svg class="ext" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5 H2.5 v7 h7 v-2"/><path d="M7 2.5 h2.5 V5"/><path d="M9.4 2.6 L5.6 6.4"/></svg>}{badge && <span class="badge" data-badge={badge}>{badge}</span>}
       {metaLine && <div class="entry-meta">{metaLine}</div>}
       {desc && <p class="entry-desc">{desc}</p>}
     </div>
