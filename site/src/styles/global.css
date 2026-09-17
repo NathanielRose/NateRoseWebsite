@@ -425,6 +425,9 @@ h1 .badge { vertical-align: 6px; }
 .forms.cols .form-figure-box { margin-left: auto; margin-right: auto; }
 
 @media (max-width: 700px) {
+  /* Stacked, the columns centre their own text, so a left-aligned heading
+     above them reads as misaligned. */
+  .forms-heading { text-align: center; }
   .forms.cols { grid-template-columns: 1fr; gap: 0; }
   .forms.cols dt { margin-top: 16px; grid-row: auto; }
   .forms.cols dt:first-of-type { margin-top: 0; }

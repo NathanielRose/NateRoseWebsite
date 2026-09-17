@@ -55,7 +55,7 @@ export async function getFeed(): Promise<FeedRow[]> {
     href: a.originalLive ? a.originalUrl : `/archive/${a.slug}/`,
     when: formatDate(new Date(a.date)),
     sort: new Date(a.date).valueOf(),
-    meta: `${a.publication} · ${a.author}`,
+    meta: [a.publication, a.author, a.note].filter(Boolean).join(" · "),
     badge: a.originalLive ? 'Article' : 'Archived',
     external: a.originalLive,
   }));

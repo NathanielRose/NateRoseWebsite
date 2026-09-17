@@ -28,7 +28,7 @@ const body = bodies[key];
   <article>
     <h1>{post.title}<span class="badge" data-badge="Archived">Archived</span></h1>
     <div class="entry-meta">
-      {post.publication} · {post.author} · {formatDate(new Date(post.date))}
+      {[post.publication, post.author, post.note].filter(Boolean).join(" · ")} · {formatDate(new Date(post.date))}
     </div>
 
     <p class="note" style="margin-top:22px">

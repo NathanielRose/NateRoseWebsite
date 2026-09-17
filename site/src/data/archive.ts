@@ -11,8 +11,11 @@ export interface ArchivedPost {
   title: string;
   /** Where it was originally published. */
   publication: string;
-  /** The byline as printed on the original. */
-  author: string;
+  /** The byline as printed on the original. Omitted when the piece is
+      credited to the publication itself. */
+  author?: string;
+  /** Extra context for the metadata line, e.g. the event covered. */
+  note?: string;
   originalUrl: string;
   /** false when the original no longer resolves. */
   originalLive: boolean;
@@ -25,6 +28,17 @@ export interface ArchivedPost {
 }
 
 export const archived: ArchivedPost[] = [
+  {
+    slug: 'tedx-syracuse-big-nate',
+    title: 'Big Nate',
+    publication: 'Syracuse in Focus',
+    note: 'TEDxSyracuseUniversity',
+    originalUrl: 'https://www.sif.net/wordpress/?p=9136',
+    originalLive: true,
+    date: '2014-04-10',
+    excerpt:
+      'Coverage of the inaugural TEDxSyracuseUniversity, which Nathaniel Rose organised as an SU senior — a packed Hergenhan Auditorium, talks across disciplines, and a post-show with VR demos on the second floor of Newhouse III.',
+  },
   {
     slug: 'circle-airflow-data-and-billions-across-blockchains',
     title: 'Circle: Airflow, Data and Billions Across Blockchains',
