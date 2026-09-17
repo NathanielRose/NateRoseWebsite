@@ -43,15 +43,13 @@ export const projects: Project[] = [
     video: '/media/eeg-biometric.mp4',
   },
   {
-    title: 'DeepFaceLive',
+    title: 'DeepFaceLive Honeypot',
     href: 'https://github.com/iperov/DeepFaceLive',
     external: true,
-    meta: 'Open source · real-time face swap · Python',
+    meta: 'Open source · virtual camera driver · real-time face swap',
     year: '2024',
-    // TODO: replace with what you actually built or changed — this describes
-    // the pipeline, not your contribution to it.
     desc:
-      'Time spent inside the open-source real-time face-swap pipeline: YOLOv5 detection, face alignment and live landmark tracking over a webcam stream.',
+      'A demonstration that a video call proves nothing about who is on it. Hijacking the virtual camera driver puts a real-time face swap into a live Zoom call, so the far end sees a face that was never in front of the lens. Built quickly and used in investor conversations to make the case for camera integrity.',
     poster: '/media/deepfacelive.jpg',
     video: '/media/deepfacelive.mp4',
   },
@@ -66,11 +64,16 @@ export const projects: Project[] = [
   },
   {
     title: 'EEG Brain State Decoding',
-    meta: 'UC Berkeley · reproduction study · dCNNs',
+    href: '/assets/CS294-082_EEG_Brain_State_Decoding.pdf',
+    meta: 'UC Berkeley · CS294-082 · with Eigil Bagger · dCNNs',
     year: '2019',
     desc:
-      'A reproduction of Tayeb et al. on classifying motor imagery from EEG. Read through memory-equivalent capacity, the shallow results do not reproduce, and the deep models’ accuracy turns out to come from a flawed pairing of sliding-window preprocessing with 5-fold cross validation.',
-    diagram: 'eeg-decode',
+      'A reproduction of Tayeb et al. on decoding motor imagery from EEG, read through memory-equivalent capacity. The original reports binary accuracies near 95% where the state of the art reaches 85%. The shallow methods do not reproduce at all, and the deep models’ accuracy turns out to come from pairing sliding-window preprocessing with 5-fold cross validation — which puts overlapping windows of the same trial in both the training and test sets.',
+    // Figures lifted from the paper itself: the motor-imagery paradigm, the
+    // sliding-window scheme that causes the leak, per-subject accuracies, and
+    // accuracy against capacity with and without trial mixing.
+    poster: '/media/eeg-decode.jpg',
+    video: '/media/eeg-decode.mp4',
   },
   {
     title: 'Project Bedrock',
