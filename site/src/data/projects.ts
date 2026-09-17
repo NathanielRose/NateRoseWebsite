@@ -72,11 +72,13 @@ export const projects: Project[] = [
   {
     title: 'Humanoid Predictive Rewards',
     // Links to the VVV2013 summer school video rather than the 2014 school
-    // page — VVV13 is the year of the residency. Its Vimeo still is a title
-    // card of another attendee, so the schematic stays as the graphic.
+    // page — VVV13 is the year of the residency.
     href: 'https://vimeo.com/70390713',
     external: true,
-    diagram: 'icub-reward',
+    // Nathaniel's own photographs from the residency, cross-faded: the robot,
+    // him working with it, and the YARP stereo viewers behind it.
+    poster: '/media/icub.jpg',
+    video: '/media/icub.mp4',
     meta: 'Italian Institute of Technology · iCub · VVV2013 · C++',
     year: '2013',
     desc:
