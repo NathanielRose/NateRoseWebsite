@@ -1,0 +1,113 @@
+---
+interface Props {
+  poster: string;
+  /** Optional looping clip. Authored as MP4/WebM, never GIF — see README. */
+  video?: string;
+  alt: string;
+}
+const { poster, video, alt } = Astro.props;
+---
+<span class="thumb" data-thumb={video ? 'video' : 'static'}>
+  <img src={poster} alt={alt} loading="lazy" decoding="async" width="150" height="90" />
+  {video && (
+    <>
+      <video
+        muted
+        loop
+        playsinline
+        preload="none"
+        disablePictureInPicture
+        disableRemotePlayback
+        aria-hidden="true"
+        tabindex="-1"
+      >
+        <source src={video} type="video/mp4" />
+      </video>
+    </>
+  )}
+</span>
+
+<script>
+  // Motion is opt-in: nothing autoplays on load, and `preload="none"` means a
+  // clip's bytes are only fetched the first time it actually plays.
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const coarse = window.matchMedia('(pointer: coarse)');
+
+  interface Tile {
+    thumb: HTMLElement;
+    play: () => void;
+    stop: () => void;
+  }
+
+  const setup = () => {
+    if (reduced.matches) return;
+
+    const tiles: Tile[] = [];
+
+    document.querySelectorAll<HTMLElement>('[data-thumb="video"]').forEach((thumb) => {
+      const video = thumb.querySelector('video');
+      if (!video) return;
+
+      tiles.push({
+        thumb,
+        play: () => {
+          if (thumb.classList.contains('is-playing')) return;
+          thumb.classList.add('is-playing');
+          // Autoplay can still be refused; fall back to the poster quietly.
+          video.play().catch(() => thumb.classList.remove('is-playing'));
+        },
+        stop: () => {
+          if (!thumb.classList.contains('is-playing')) return;
+          thumb.classList.remove('is-playing');
+          video.pause();
+          video.currentTime = 0;
+        },
+      });
+    });
+
+    if (tiles.length === 0) return;
+
+    if (coarse.matches) {
+      // There is no hover on touch. Playing every tile that happens to be on
+      // screen turns the page into a wall of motion, so exactly one plays:
+      // whichever is currently most visible.
+      const ratios = new Map<Element, number>();
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            ratios.set(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0);
+          }
+
+          let winner: Element | null = null;
+          let best = 0.5; // require a tile to be at least half on screen
+          for (const [el, ratio] of ratios) {
+            if (ratio > best) {
+              best = ratio;
+              winner = el;
+            }
+          }
+
+          for (const tile of tiles) {
+            tile.thumb === winner ? tile.play() : tile.stop();
+          }
+        },
+        { threshold: [0, 0.25, 0.5, 0.75, 1] }
+      );
+
+      tiles.forEach((tile) => observer.observe(tile.thumb));
+    } else {
+      for (const tile of tiles) {
+        // Hovering anywhere on the row plays it, not just the little thumbnail.
+        const row = tile.thumb.closest('.entry') ?? tile.thumb;
+        row.addEventListener('mouseenter', tile.play);
+        row.addEventListener('mouseleave', tile.stop);
+        row.addEventListener('focusin', tile.play);
+        row.addEventListener('focusout', tile.stop);
+      }
+    }
+  };
+
+  setup();
+  document.addEventListener('astro:page-load', setup);
+</script>

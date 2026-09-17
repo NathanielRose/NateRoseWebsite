@@ -1,0 +1,63 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Nathaniel Rose — research engineer working on neurotechnology, neurosecurity and machine learning.' } = Astro.props;
+
+const here = Astro.url.pathname;
+const nav = [
+  { label: 'Main', href: '/' },
+  { label: 'My Work', href: '/writing/' },
+  { label: 'Projects', href: '/projects/' },
+  { label: 'CV', href: '/assets/NathanielRose_CV_2026.pdf' },
+];
+
+const isCurrent = (href: string) =>
+  href === '/' ? here === '/' : here.startsWith(href);
+---
+<!doctype html>
+<!-- TEMPORARY: data-theme="light" pins the site to the light palette for
+     testing. Every dark rule is guarded with :root:not([data-theme="light"]),
+     so deleting this attribute restores automatic system-based switching. -->
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="alternate" type="application/rss+xml" title="Nathaniel Rose" href="/feed.xml" />
+  </head>
+  <body>
+    <div class="sea-rule" aria-hidden="true"></div>
+    <nav class="nav">
+      <div class="nav-inner">
+        {nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={item.href.startsWith('/assets') ? undefined : (isCurrent(item.href) ? 'page' : undefined)}
+          >{item.label}</a>
+        ))}
+      </div>
+    </nav>
+    <main class="wrap">
+      <slot />
+      <footer class="site">
+        Nathaniel Rose · <a href="mailto:nate@naterose.io">nate@naterose.io</a> ·
+        <a href="https://github.com/nathanielrose">GitHub</a> ·
+        <a href="https://linkedin.com/in/nathanielrose">LinkedIn</a>
+      </footer>
+    </main>
+  </body>
+</html>

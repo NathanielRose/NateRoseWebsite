@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import Entry from '../../components/Entry.astro';
+import { SUBSTACK_URL } from '../../data/substack';
+import { getFeed } from '../../lib/entries';
+
+// Papers, talks, press, archived pieces and posts in one list, told apart by
+// their badge. See src/lib/entries.ts for how the feed is assembled.
+const all = await getFeed();
+---
+<Base title="My Work – Nathaniel Rose">
+  <h1>My Work</h1>
+
+  <div class="subscribe">
+    <span>
+      {SUBSTACK_URL
+        ? 'Longer-form pieces go out on the newsletter first.'
+        : 'Newsletter: soon come.'}
+    </span>
+    {SUBSTACK_URL && (
+      <a href={SUBSTACK_URL} target="_blank" rel="noopener"><b>Subscribe →</b></a>
+    )}
+  </div>
+
+  <div class="entries tight">
+    {all.map((row) => (
+      <Entry
+        title={row.title}
+        href={row.href}
+        when={row.when}
+        meta={row.meta}
+        badge={row.badge}
+        external={row.external}
+        compact
+      />
+    ))}
+  </div>
+</Base>

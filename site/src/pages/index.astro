@@ -1,0 +1,140 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import Base from '../layouts/Base.astro';
+import Entry from '../components/Entry.astro';
+import Interests from '../components/Interests.astro';
+import { projects } from '../data/projects';
+import { getFeed } from '../lib/entries';
+
+// Same merged feed as /writing/, so "recent" here means genuinely recent
+// rather than just the newest blog post.
+const recent = (await getFeed()).slice(0, 5);
+
+// Historical figures illustrate two of the three columns. Each file is checked
+// at build time, so a figure appears once its file is in place and nothing
+// 404s while one is absent.
+const figureExists = (src?: string) =>
+  Boolean(src) && fs.existsSync(path.join(process.cwd(), 'public', src!));
+
+// The framing, and the career arc behind it, follow Nathaniel's own
+// positioning slide rather than the CV's reverse-chronological job list.
+const forms = [
+  {
+    name: 'Human intelligence',
+    figure: '/images/forms/neuron.png',
+    figureAlt: 'Otto Deiters’ 1865 drawing of a neuron',
+    body:
+      'Neuroscience, cognitive science and human behavior. Neural signatures, human agency, neural decoding and brain foundation models.',
+  },
+  {
+    name: 'Machine intelligence',
+    figure: '/images/forms/perceptron.png',
+    figureAlt: 'An early perceptron diagram: inputs converging through hidden units to three outputs',
+    body:
+      'Machine learning, MLOps and the infrastructure it runs on. Model security, causal reasoning, machine cognition and open-weight models.',
+  },
+  {
+    name: 'Systemic intelligence',
+    figure: '/images/forms/network.png',
+    figureAlt: 'A sociogram: two clusters of individuals linked by directed ties, joined by a single bridging connection',
+    body:
+      'Institutional systems, collective intelligence that emerges between people, governance, education policy and equity.',
+  },
+];
+---
+<Base title="Nathaniel Rose">
+  <header class="identity">
+    <picture>
+      <source srcset="/images/headshot.webp" type="image/webp" />
+      <img src="/images/headshot.jpg" alt="Nathaniel Rose" width="172" height="172" />
+    </picture>
+    <div>
+      <h1>Nathaniel Rose</h1>
+      <p class="tagline">Software Engineer | Neurotechnology | Machine Learning</p>
+      <div class="contact">
+        NYC / Oakland / London · <a href="mailto:nate@naterose.io">nate@naterose.io</a> <a href="/assets/NathanielRose_CV_2026.pdf">[cv]</a>
+      </div>
+    </div>
+  </header>
+
+  <p>
+    I'm currently working on neurotechnology, cognitive security, neurosecurity and
+    computational models. I'm interested in developing novel standards and
+    architectures that enable new thinking systems. Before that I spent a decade
+    building data models, data orchestration and ML infrastructure underneath other
+    people's models.
+  </p>
+
+  <h2 class="forms-heading">I'm interested in intelligence, in three forms</h2>
+  <dl class="forms cols">
+    {forms.map((f) => (
+      <>
+        <dt>{f.name}</dt>
+        <dd>
+          <span class="form-figure-box">
+            {figureExists(f.figure) && (
+              <img class="form-figure" src={f.figure} alt={f.figureAlt} loading="lazy" />
+            )}
+          </span>
+          {f.body}
+        </dd>
+      </>
+    ))}
+  </dl>
+
+  <h2>Bio</h2>
+  <div class="bio">
+    <p>
+      I started as an engineer at <b>Microsoft</b>, working on Kubernetes, Terraform
+      and ML pipelines, then took an MRes in Neurotechnology at <b>Imperial College
+      London</b> in the Brain and Behavior Lab, on gaze selection and brain-machine
+      interfaces. I spent the next several years on financial infrastructure — senior
+      MLOps engineer at <b>Ripple</b>, where I also served as president of Black at
+      Ripple, then staff data platform engineer at <b>Circle</b> — building feature
+      stores, data catalogs and the orchestration underneath them.
+    </p>
+    <p>
+      Along the way I co-founded <b>Lymbic AI</b> in London, which built EEG-based
+      privacy-preserving biometrics. I also started the <a href="https://cerberus.institute" target="_blank" rel="noopener"><b>Cerberus Neurosecurity Research Institute</b></a>. I'm now working independently
+      on the systems that move neural data, the models that read it, and the
+      standards that will decide who any of it is safe for.
+    </p>
+    <Interests />
+  </div>
+
+  <h2>Selected Projects</h2>
+  <div class="entries">
+    {projects.slice(0, 4).map((p) => (
+      <Entry
+        title={p.title}
+        href={p.href}
+        when={p.year}
+        meta={p.meta}
+        desc={p.desc}
+        poster={p.poster}
+        video={p.video}
+        diagram={p.diagram}
+        badge={p.badge}
+        external={p.external}
+      />
+    ))}
+  </div>
+  <p><a href="/projects/">All projects →</a></p>
+
+  <h2>Recent</h2>
+  <div class="entries tight">
+    {recent.map((row) => (
+      <Entry
+        title={row.title}
+        href={row.href}
+        when={row.when}
+        meta={row.meta}
+        badge={row.badge}
+        external={row.external}
+        compact
+      />
+    ))}
+  </div>
+  <p><a href="/writing/">All work →</a></p>
+</Base>

@@ -1,0 +1,223 @@
+<div class="editor-content" data-clipboard="Copy link to clipboard."><p>The Ripple Data Engineering team is expanding, which means higher frequency changes to our data pipeline source code. This means we need to build better, more configurable and more collaborative tooling that prevents code collisions and enforces software engineering best practices. To ensure the quality of incoming features, the team sought to create a pipeline that automatically validated those features, build them to verify their interoperability with existing features and GitLab,  and alert the respective owners of any failures in the pipeline. These are pretty standard DevOps requirements, and to achieve them, our team implemented a Continuous Integration Continuous Deployment (CI/CD) approach for our data applications in Google Cloud Platform (GCP).<br></p><p>For our data applications, we use:</p><ul><li><a href="https://cloud.google.com/composer/docs/how-to/accessing/airflow-web-interface?ref=engineering.ripple.com">Airflow</a> - to manage data services through GCP. Airflow embodies the concept of <a href="https://cloud.google.com/composer/docs/dag-serialization?ref=engineering.ripple.com">Directed Acyclic Graphs (DAGs)</a>, which are written in Python, to declare sequential task configurations that carry out our workflow.</li><li><a href="https://cloud.google.com/composer?ref=engineering.ripple.com">Cloud Composer</a> - for the orchestration of our data pipelines ETL jobs and scheduled tasks</li><li>GitLab - for source code management and to target multiple data environments for testing and quality assurance<br></li></ul><p>This post breaks down our initial, modest solution for building a CI/CD deployment pipeline that leverages Cloud Composer Airflow and GitLab.</p><p><strong>Topics:</strong></p><!--kg-card-begin: markdown--><ul>
+<li><a href="https://engineering.ripple.com/p/649d698a-2181-49af-9de0-ca9532370042/#init">Initializing GitLab Pipelines</a></li>
+<li><a href="https://engineering.ripple.com/p/649d698a-2181-49af-9de0-ca9532370042/#styling">Styling, Linting &amp; Standardization</a></li>
+<li><a href="https://engineering.ripple.com/p/649d698a-2181-49af-9de0-ca9532370042/#validation">Build Validation and Code Compile</a></li>
+<li><a href="https://engineering.ripple.com/p/649d698a-2181-49af-9de0-ca9532370042/#auth">Authentication and Access</a></li>
+<li><a href="https://engineering.ripple.com/p/649d698a-2181-49af-9de0-ca9532370042/#staging">Staging and Cloud Deployment</a></li>
+<li><a href="https://engineering.ripple.com/p/649d698a-2181-49af-9de0-ca9532370042/#alerting">Alerting and Slack Notifications</a></li>
+</ul>
+<!--kg-card-end: markdown--><p></p><!--kg-card-begin: html--><h2 id="init">Initializing GitLab Pipelines</h2>
+<!--kg-card-end: html--><p><a href="https://docs.gitlab.com/ee/ci/pipelines/?ref=engineering.ripple.com">Pipelines</a> are a structured topographical way to configure continuous integration, delivery, and deployment in GitLab. You use a <a href="https://docs.gitlab.com/ee/ci/yaml/gitlab_ci_yaml.html?ref=engineering.ripple.com">.gitlab-ci.yml</a> file in a repo to define the CI/CD settings to invoke based on the triggers you define. For example, you could set up your repo to be triggered by incoming changes to your branch source code, which is what we wanted to do for our code pipeline.<br></p><figure class="kg-card kg-image-card"><p class="figure-missing">[figure not preserved in the archived copy]</p></figure><p><br></p><p>When setting up CI/CD and Cloud Composer, many teams have leveraged Google Cloud Build (Option 1), Google’s native CI/CD platform that can authenticate and target cloud resources while performing deep security scans and package source artifacts. But, at the time of writing, GCP Build does not support GitLab or generic git repositories and solely integrates with Cloud Service Repositories and GitHub. We use GitLab, so we had to create a GitLab Python Runner (Option 2).</p><!--kg-card-begin: html--><h2 id="define-build">Define the Build Stage</h2>
+<!--kg-card-end: html--><p>To set up a GitLab Python Runner as we did in Option 2, add a simple .gilab-ci.yml to your repo similar to the following example.</p><pre><code>stages:
+  - Build
+
+# Build Repo
+Build:
+  stage: Build
+  image:
+    name: apache/airflow:1.10.11-python3.8
+    entrypoint: [""]
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+    - changes:
+        - dags/*
+        - slack/*
+        - "**/*.{py}"
+        - .gitlab-ci.yml
+  script:
+    - #ADD YOUR REPO VALIDATION CODE HERE
+    - echo "DAG REPO BUILD SUCCESSFUL"
+</code></pre><p></p><p>Here's an explanation of the keys and values used in the example:</p><!--kg-card-begin: markdown--><ul>
+<li><strong>image</strong> -
+<ul>
+<li><strong>name</strong> - The base docker image you want to use that contains all the necessary dependencies. To use a managed image, add the image name for the name field. We use the productionized <a href="https://github.com/apache/airflow/blob/master/IMAGES.rst?ref=engineering.ripple.com">Airflow docker image</a> with the Python version aligned with our current code base.</li>
+</ul>
+</li>
+<li><strong>rules</strong> - This section defines what triggers the pipeline, such as  commits to your source code. In this example, we run our pipeline when:
+<ul>
+<li>a merge request is opened or receives a new commit (<code>if:  $CI_MERGE_REQUEST_ID</code>)</li>
+<li>a new commit has been pushed to any branch in the repo that has modified any of the targeted folders specified in the <code>changes:</code> fields</li>
+</ul>
+</li>
+<li><strong>script</strong> - This is where you place that shell script that will compile incoming source code. We’ll come back to this in the <a href="https://engineering.ripple.com/p/649d698a-2181-49af-9de0-ca9532370042/#validation">Build Validation and Code Compile</a> section.</li>
+</ul>
+<p>After you add the <code>.gitlab-ci.yml</code> file and push it to your repo, you will see the pipeline icon initiate with the contents of your config YAML file.</p>
+<!--kg-card-end: markdown--><!--kg-card-begin: html--><h2 id="styling">Styling, Linting, and Standardization</h2>
+<!--kg-card-end: html--><p>To enforce best practices and check for any idiosyncratic syntax errors, we use styling and linting jobs in our pipeline. Our team configured a pre-commit hook framework to automatically identify syntax and style issues in our code on every commit, such as missing semicolons, trailing whitespace, and improperly named variables on every commit. By catching these issues out before code review, peers can focus on the workflow logic and architecture being changed within the DAG rather than waste time with trivial style nitpicks.</p><!--kg-card-begin: markdown--><p>To configure a <code>git-hook</code> in a <code>hooks</code> directory to trigger the <a href="https://pre-commit.com/?ref=engineering.ripple.com#intro">pre-commit</a> actions that will be invoked upon a git commit:</p>
+<ol>
+<li><a href="https://pre-commit.com/?ref=engineering.ripple.com#install">Install pre-commit</a> and attach the commit hook pipeline in your local repository:<br>
+<code>cd ~/path/to/project/root</code><br>
+<code>pip install pre-commit</code><br>
+<code>pre-commit install</code></li>
+<li>(Optional) If you need to run <code>pre-commit</code> without submitting a git commit, run:<br>
+<code>pre-commit run --all-files</code></li>
+<li>(Optional) If you need to disable <code>pre-commit</code>, run:<br>
+<code>export PRE_COMMIT_ALLOW_NO_CONFIG=1</code></li>
+<li>Add the <code>.pre-commit-config.yaml</code> to your repo.</li>
+</ol>
+<!--kg-card-end: markdown--><pre><code>repos:
+  - repo: https://github.com/prettier/prettier
+    rev: "2.0.5"
+    hooks:
+      - id: prettier
+  - repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v1.5.3
+    hooks:
+      - id: autopep8
+  - repo: https://github.com/asottile/seed-isort-config
+    rev: v2.2.0
+    hooks:
+      - id: seed-isort-config
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v4.3.21
+    hooks:
+      - id: isort
+  - repo: https://github.com/psf/black
+    rev: 19.10b0
+    hooks:
+      - id: black
+        language_version: python3
+  - repo: https://github.com/PyCQA/flake8
+    rev: 3.8.3
+    hooks:
+      - id: flake8</code></pre><p><br>In this  example YAML file, all local git commits are verified through a pipeline of scripts that format and test for linting. The linting and styling checks that this file defines include:</p><ul><li><code><strong>prettier</strong></code> - Formats markdown files to conform the <a href="https://spec.commonmark.org/?ref=engineering.ripple.com">Commonmark specification</a> of Markdown.</li><li><code><strong>autopep8</strong></code> - Automatically formats Python code to conform to the <a href="https://www.python.org/dev/peps/pep-0008/?ref=engineering.ripple.com">PEP 8 style guide</a>.</li><li><code><strong>seed-isort-config</strong></code> - Statically populates the<strong> </strong><code>known_third_party</code> <code>isort</code> setting in Python.</li><li><code><strong>isort</strong></code><strong> </strong>- Sorts Python imports alphabetically and automatically separates into sections and by type.</li><li><code><strong>black</strong></code> - Enforces formatting that conforms to PEP 8.</li><li><code><strong>flake8</strong></code> - Enforces a <a href="https://pypi.org/project/pycodestyle/?ref=engineering.ripple.com">pycodestyle</a>.<br></li></ul><p>Add <code><strong>.</strong>flake8</code> and the <code>.isort.cfg</code> files to your repo so that you can adjust those linters to meet your needs. For more information about how to adjust the settings for the linters, see <a href="https://flake8.pycqa.org/en/latest/glossary.html?ref=engineering.ripple.com#term-error-code">flake8-docs</a> and <a href="https://github.com/timothycrosley/isort?ref=engineering.ripple.com#configuring-isort">isort-docs</a>.<br></p><!--kg-card-begin: html--><h2 id="validation">Build Validation and Code Compile</h2>
+<!--kg-card-end: html--><p>An Airflow DAG is structural task code but that doesn't mean it's any different than other Python scripts. This means we can check if the script is compilable, verify targeted dependencies are installed, and ensure variables are correctly declared. We want to “fail fast” to minimize the  duration of a commit job from a feature branch. This build validation and DAG cross-check can be separated into three primary task servicabilities:</p><ul><li><a href="https://engineering.ripple.com/p/649d698a-2181-49af-9de0-ca9532370042/#py-validation">Python Build Validation</a></li><li><a href="https://engineering.ripple.com/p/649d698a-2181-49af-9de0-ca9532370042/#airflow-qa">Airflow Quality Assurance</a></li><li><a href="https://engineering.ripple.com/p/649d698a-2181-49af-9de0-ca9532370042/#dag-unit">DAG Unit Testing</a></li></ul><!--kg-card-begin: html--><h3 id="py-validation">Python Build Validation</h3>
+<!--kg-card-end: html--><p>Let's revisit our <a href="https://engineering.ripple.com/p/649d698a-2181-49af-9de0-ca9532370042/#define-build">Build stage</a>.</p><pre><code># Build Repo
+Build:
+  stage: Build
+  image:
+    name: apache/airflow:1.10.11-python3.8
+    entrypoint: [""]
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+    - changes:
+        - dags/*
+        - slack/*
+        - "**/*.{py}"
+        - .gitlab-ci.yml
+  script:
+    - pip install -r requirements.txt --user
+    - export PYTHONPATH="${PYTHONPATH}:/tmp/slack"
+    - export $(cat .env/.devenv | xargs)
+    - |
+      for dag in $(find . -name '*.py');do
+        if [[ "${dag}" =~ "dags/" ]]; then 
+          echo "VALIDATING: ${dag}"
+          python ${dag} 
+        fi
+      done
+      echo "DAG REPO BUILD SUCCESSFUL"
+</code></pre><p></p><p>Here, we updated the script so that the image we use installs all the correct python dependencies listed in our <code>requirements.txt</code> file. For example, our pipelines depend on  <code>apache-airflow[gcp]</code>, <code>PyYAML</code>, and <code>zipp</code>. Then we simply iterate through our repo and run a Python <code>{DAG_NAME}.py</code> on our <code>dags/</code> directory to ensure the DAG compiles with the installed Python interpreter version. If all dependencies are installed and the DAG is correctly configured, we should see no failures.</p><!--kg-card-begin: html--><h3 id="airflow-qa">Airflow Quality Assurance</h3>
+<!--kg-card-end: html--><p>Next, we need to know if the Airflow engine can parse our DAGs and find the task objects. To verify that our DAGs are successfully added to the Airflow platform DagBag and enforce that the expected DAG configurations are set, we can create a <code>dag_QA.py</code> file. We can use that file to directly call the Airflow engine DagBag to confirm that our DAGs are successfully added. We can also use that file to invoke smoke tests that call the Airflow platform programmatically and confirm each DAG is behaving the way we expect it to. <br></p><p>Our smoke tests verify that:</p><ul><li>There are no syntax issues or environment compatibility issues.</li><li>All DAGs can be parsed under 2 seconds.</li><li>Each DAG filename matches the <code>dag_id</code>.</li><li>Owners are set for all DAGs.</li></ul><p></p><pre><code># Validate quality assurance for all DAGs
+QA Validation:
+  stage: QA Validation
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+    - if: $CI_COMMIT_BRANCH == "master"
+  image:
+    name: apache/airflow:1.10.11-python3.8
+    entrypoint: [""]
+  script:
+    - pip install -r requirements.txt --user
+    - export PYTHONPATH="${PYTHONPATH}:/tmp/slack"
+    - export AIRFLOW_HOME="$(pwd)"
+    - export $(cat .env/.devenv | xargs)
+    - airflow initdb
+    - airflow list_dags
+    - python tests/dag_qa_validation.py
+</code></pre><p></p><p>In this example, we added a QA Validation stage to our GitLab pipeline runner. Here's what that the runner does:</p><!--kg-card-begin: markdown--><ul>
+<li>
+<p>Install all the dependencies for our DAGs listed in the <code>requirements.txt</code> file on the runner agent that was provisioned using the Airflow image:</p>
+<p><code>pip install -r requirements.txt --user</code></p>
+</li>
+<li>
+<p>We export environment variables to keep the source code DRY (Don't Repeat Yourself) and to handle our staging environments. Each DAG calls the imported environment variable that's populated with the cloud resource being referenced based on the target stage we’re in.</p>
+<p><code>export PYTHONPATH=&quot;${PYTHONPATH}:/tmp/slack&quot;</code><br>
+<code>export AIRFLOW_HOME=&quot;$(pwd)&quot;</code></p>
+</li>
+<li>
+<p>Since we want to run the real Airflow engine, we set up a database backend:<br>
+<code>airflow initdb</code></p>
+</li>
+<li>
+<p>As Airflow was built to interact with its metadata:</p>
+<p><code>airflow list_dags</code></p>
+</li>
+<li>
+<p>Finally, we invoke our QA tests:</p>
+<p><code>python tests/dag_qa_validation.py</code></p>
+</li>
+</ul>
+<!--kg-card-end: markdown--><p></p><!--kg-card-begin: html--><h3 id="dag-unit">DAG Unit Testing</h3>
+<!--kg-card-end: html--><p>Testing is underdeveloped in the data analytics world. A lot of big data warehousing projects have virtually no testing. Although SQL is a declarative language and is thus less error-prone, you can still make mistakes. The lack of automated testing is a big pain and continues to be explored.<br></p><p>In our project, we use unit tests—individual checks for each respective DAG in your source repository that tests task logic, functionality, and asserts expected task values. This is a very well-documented area for Python but a newly explored space for Airflow. How do you correctly mock and assert Airflow operator communications and values without invoking the Operator API? This post doesn't cover this problem but here are a few great resources of other developers beginning to spearhead this effort in Airflow:</p><ul><li><a href="https://blog.usejournal.com/testing-in-airflow-part-1-dag-validation-tests-dag-definition-tests-and-unit-tests-2aa94970570c?ref=engineering.ripple.com">Testing in Airflow -DAG Validation Tests, DAG Definition Tests and Unit Tests</a></li><li><a href="https://airflowsummit.org/sessions/testing-airflow-workflows/?ref=engineering.ripple.com">Testing Airflow workflows - ensuring your DAGs work before going into production</a></li></ul><h3></h3><!--kg-card-begin: html--><h2 id="auth">Authentication and Access</h2>
+<!--kg-card-end: html--><h4 id="terraform">Terraform</h4><p>Now that we have a build and code validation stages, we can deploy our code to staging environments for additional testing. To do this, we need to store GCP access tokens in GitLab to allow our runner to deploy our DAGs to GCS buckets in targeted environments. Additionally, when we deploy code to Cloud Composer, our runner will need permissions to modify the composer environment and write to the composer bucket. We use <a href="https://www.hashicorp.com/products/terraform?ref=engineering.ripple.com">Terraform</a> to manage our infrastructure in GCP. <br></p><p>First, we’ll add a service account with the appropriate permissions in the Terraform repo that maintains our Cloud Composer environments.<br></p><p>Here is an example of adding a new service account resource to our dev composer project with the appropriate permissions to modify the composer environment and storage. <br></p><pre><code># -------- Composer gitlab service account for DEV stage runner --------
+
+module "datateam-dev-composer-gitlab-runner-srv-acct" {
+  source = "../../modules/gcp-service-account/"
+  project_id = "${google_project.datateam-dev-composer-project.project_id}"
+  account_id = "datateam-dev-composer-gitlab-runner1"
+  display_name = "Dev Composer GitLab Service Account"
+}
+</code></pre><p>We assign the <code>composer.environmentAndStorageObjectAdmin</code> role to the newly created service account for each composer environment.<br></p><pre><code># Composer gitlab environment and storage admin role required to update composer environment variables
+resource "google_project_iam_member" "datateam-dev-composer-gitlab-runner" {
+  project = "${google_project.datateam-dev-composer-project.project_id}"
+  role = "roles/composer.environmentAndStorageObjectAdmin"
+  member = "serviceAccount:${module.datateam-dev-composer-gitlab-runner-srv-acct.service_account_email}"
+}
+</code></pre><p></p><p>Next, we add an instance of a <code>gitlab_project_variable</code> that outputs the JSON key of the s<code>erviceAccount</code> to a GitLab project variable to be used in our pipeline runner. <br></p><pre><code># Add a Staging SA JSON to the datateam-composer-dags repo project (001)
+resource "gitlab_project_variable" "datateam_staging_gitlab_composer_dags_sa_key" {
+    project = "001"
+    key = "Datateam_STAGING_GCLOUD_PRIVATE_KEY_JSON"
+    value = "${base64decode(google_service_account_key.datateam-staging-composer-gitlab-runner-srv-acct-2-key.private_key)}"
+    variable_type = "file"
+    environment_scope = "All"
+}
+</code></pre><p></p><p>Here's an explanation of the fields in the code example:</p><ul><li><strong><code>project</code></strong> - Your gitlab <code>project_id</code></li><li><strong><code>key</code> </strong>- An arbitrary name for your key</li><li><strong><code>value</code></strong> - The output of your service account key decoded in <code>base64variable_type</code> - Required for JSON. <br><br>You can also configure team-level variables for the Service Account key to use across multiple GitLab projects. Check out the<a href="https://registry.terraform.io/providers/gitlabhq/gitlab/latest/docs/resources/group_variable?ref=engineering.ripple.com"> <code>gitlab_group_variable</code> resource</a> for more details.</li><li><strong><code>environment_scope</code></strong> - Allows you to scope the accessibility of the variable to certain branches</li></ul><!--kg-card-begin: markdown--><h3 id="gitlabpipeline">GitLab Pipeline</h3>
+<!--kg-card-end: markdown--><p>Once the new changes to terraform infrastructure are  defined, add your variable as a reference in your pipeline YAML file to be used by <code>gsutil</code> in your script.</p><pre><code>.gcloud_stage_init: &amp;gcloud_stage_init
+  - if [ -f "$DATATEAM_STAGING_GCLOUD_PRIVATE_KEY_JSON" ]; then gcloud auth activate-service-account --key-file $DATATEAM_STAGING_GCLOUD_PRIVATE_KEY_JSON; fi
+
+Deploy Staging DAG:
+  &lt;&lt;: *gsutil_image
+  stage: DAG Deployment
+  environment:
+    name: staging
+    url: &lt;your Airflow UI URL&gt;
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+      when: manual
+  before_script:
+    - *gcloud_stage_init
+  script:
+    - #To be added
+</code></pre><p></p><p>Here we add  <code>gcloud_stage_init</code> which configures the GCP CLI to run our <code>gsutil</code> and <code>gcloud</code> composer environments commands to update cloud composer and write our DAGs to the composer bucket.</p><!--kg-card-begin: html--><h2 id="staging">Staging and Cloud Deployment</h2>
+<!--kg-card-end: html--><p>You will need to repeat the steps mentioned in the <a href="https://engineering.ripple.com/p/649d698a-2181-49af-9de0-ca9532370042/#auth">Authentication and Access</a> section and create access keys for each environment in your data project.<br></p><figure class="kg-card kg-image-card"><p class="figure-missing">[figure not preserved in the archived copy]</p></figure><p><br></p><p>In the sample script above, we created a stage called<strong> <code>DAG Deployment</code></strong>, which runs only when a commit is pushed to a merge request and is manually invoked by a user.</p><pre><code>  rules:
+    - if: $CI_MERGE_REQUEST_ID
+      when: manual</code></pre><p>The <code>manual</code> delivery setting is a deployment measure to ensure there is a human-in-loop prior to deploying to a targeted stage to assure quality. (If you want to to automatically invoke this step in your pipeline, you can omit <code>when: manual</code> in the code.) <br></p><figure class="kg-card kg-image-card"><p class="figure-missing">[figure not preserved in the archived copy]</p></figure><p>To synchronize contents of our GitLab repo to the buckets/directories, we run<strong> </strong><code>gsutil -m rsync</code>. <br></p><p>To update the environment variables that the DAGs use in Airflow, we run <code>gcloud composer environments update</code>:</p><pre><code>script:
+    - export $(cat .env/.stageenv | xargs)
+    - readarray -t env_arr &lt;.env/.stageenv
+    - gsutil -m rsync -d -r . $AIRFLOW_VAR_COMPOSER_BUCKET/dags/
+    - gcloud composer environments update $AIRFLOW_VAR_COMPOSER_ENVIRONMENT --project $AIRFLOW_VAR_COMPOSER_PROJECT --location $AIRFLOW_VAR_COMPOSER_LOCATION --update-env-variables=$env --clear-env-variables
+</code></pre><h3></h3><!--kg-card-begin: html--><h2 id="alerting">Alerting and Slack Notifications</h2>
+<!--kg-card-end: html--><p>Our team wanted to receive notifications to alert us when CI/CD pipeline failures occurred. The mechanism that allows us to do this is alerting. The pipeline can send notifications to the team via their preferred communication channel, which, in our case, was Slack.</p><p>In our environment, alerting is configured at 3 levels:</p><figure class="kg-card kg-image-card"><p class="figure-missing">[figure not preserved in the archived copy]</p></figure><ul><li><strong>GCP </strong>- Send alerts based on the health of your infrastructure and cloud resource</li><li><strong>GitLab</strong> - Send alerts based on the events of the repo CI/CD pipeline</li><li><strong>Application / Airflow</strong> - Application alerts that send the logs of failure. In this case, the application is a DAG inAirflow<br></li></ul><p>Before configuring any of these alerting settings, you may need to get a web hook to authenticate against your organization's Slack to write messages to a targeted channel. Contact your IT administrator for more information.</p><!--kg-card-begin: markdown--><h3 id="configuringgcpalerting">Configuring GCP Alerting</h3>
+<!--kg-card-end: markdown--><p><a href="https://cloud.google.com/monitoring/alerts?ref=engineering.ripple.com">GCP Alerting </a>for resources are provided through Alerting Policies and can be configured in the Monitoring console. In this example, we set an alerting policy on our production environment's Cloud Composer health status. The condition we use in this policy monitors an Airflow webserver metric whose value is 0 when the composer health has failed.</p><figure class="kg-card kg-image-card"><p class="figure-missing">[figure not preserved in the archived copy]</p></figure><!--kg-card-begin: markdown--><h3 id="configuringgitlabalerting">Configuring GitLab Alerting</h3>
+<!--kg-card-end: markdown--><p>To configure alerting in GitLab:<br></p><ol><li>Navigate to the GitLab repo.</li><li>Confirm that you have maintainer permissions for the project to configure settings.</li><li>In <strong>Settings</strong>, select <strong>Webhooks</strong> and choose which event triggers you want to invoke alerts that will be shared through your webhook.</li><li>Add the webhook to the slack channel you want to target for GitLab Runner failures.</li></ol><figure class="kg-card kg-image-card"><p class="figure-missing">[figure not preserved in the archived copy]</p></figure><h4></h4><!--kg-card-begin: markdown--><h3 id="configuringairflowalerting">Configuring Airflow Alerting</h3>
+<!--kg-card-end: markdown--><p>When a Composer job fails, the failure invokes a notification in Slack. Our repo contains a slack module that is deployed to the DAGs bucket of the composer environment.</p><p>To set up this alerting:</p><!--kg-card-begin: markdown--><ol>
+<li>In the Airflow UI, under <strong>Admin &gt; Variables</strong> create a variable:</li>
+</ol>
+<ul>
+<li><strong>key:</strong> <code>ENVIRONMENT_NAME</code></li>
+<li><strong>value:</strong> The appropriate environment name (e.g., Production or Staging) as the value. The Slack notification uses this variable to differentiate the environment in which the failure occurred.</li>
+</ul>
+<ol start="2">
+<li>Create a Slack webhook and connection by configuring the proper credentials in Airflow UI under <strong>Admin &gt; Connections</strong>.</li>
+</ol>
+<!--kg-card-end: markdown--><p>For more information on configuring Airflow Slack Alerts, check out<a href="https://medium.com/datareply/integrating-slack-alerts-in-airflow-c9dcd155105?ref=engineering.ripple.com"> this useful article</a>.<br></p><h3 id="next-steps">Next Steps</h3><p>As mentioned prior, this is a modest solution at building a CI/CD process that works for our current implementation of data pipelines. What is beneficial to this approach is the flexibility to easily reconfigure components to this process to support our other applications in NodeJS, Java and Golang.  </p><p>In the future, we want to continue improving this pipeline. Here are a few things that we may tweak:</p><ul><li>Leveraging Airflow 2.0 that supports DAG versioning</li><li>Replacing our rsync for dag deployment with something more robust as our DAG repo expands</li><li>Adding concrete examples of Unit Tests that mock and assert our task logic<br></li></ul><p>If you’re interested in working on this type of project or other emerging blockchain and digital asset technologies, we’re <a href="https://ripple.com/company/careers/all-jobs?ref=engineering.ripple.com">hiring</a>! <br></p></div>
+                    
+
+                    
+
+                    <div class="social_icons">
+                        <a class="share-btn" href="https://twitter.com/share?text=Building%20CI%2FCD%20with%20Airflow%2C%20GitLab%20and%20Terraform%20in%20GCP&amp;url=https://engineering.ripple.com/building-ci-cd-with-airflow-gitlab-and-terraform-in-gcp/"  data-toggle="tooltip" data-placement="right" title="Share on Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+                        <a class="share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https://engineering.ripple.com/building-ci-cd-with-airflow-gitlab-and-terraform-in-gcp/"  data-toggle="tooltip" data-placement="right" title="Share on Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+                        <a class="share-btn" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://engineering.ripple.com/building-ci-cd-with-airflow-gitlab-and-terraform-in-gcp/"  data-toggle="tooltip" data-placement="right" title="Share on LinkedIn" target="_blank"><i class="fa fa-linkedin"></i></a>
+                    </div>

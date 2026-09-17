@@ -1,0 +1,103 @@
+---
+// Line schematics of what each project actually does, used where no real
+// figure or screen capture exists yet. They animate on hover via the rules in
+// global.css (.diagram), which also honour prefers-reduced-motion.
+//
+// These are explicitly diagrams, not stand-ins for captures. Replace any of
+// them by giving the project a `poster`/`video` instead of a `diagram`.
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+---
+{id === 'eeg-biometric' && (
+  <span class="thumb diagram" data-diagram="eeg-biometric">
+    <svg viewBox="0 0 150 90" role="img" aria-label="EEG signals classified into an identity match">
+      <g class="ink">
+        <path class="wave w1" d="M6 24 q5-7 10 0 t10 0 t10 0 t10 0" />
+        <path class="wave w2" d="M6 45 q5-8 10 0 t10 0 t10 0 t10 0" />
+        <path class="wave w3" d="M6 66 q5-6 10 0 t10 0 t10 0 t10 0" />
+        <path class="link" d="M50 24 L82 34 M50 45 L82 45 M50 66 L82 56" />
+        <circle class="node n1" cx="86" cy="34" r="4.5" />
+        <circle class="node n2" cx="86" cy="56" r="4.5" />
+        <path class="link" d="M91 34 L112 45 M91 56 L112 45" />
+        <circle class="node n3" cx="117" cy="45" r="5.5" />
+        <path class="check" d="M113.5 45 l2.5 2.5 l5-5.5" />
+      </g>
+    </svg>
+  </span>
+)}
+
+{id === 'gaze-robot' && (
+  <span class="thumb diagram" data-diagram="gaze-robot">
+    <svg viewBox="0 0 150 90" role="img" aria-label="Gaze tracking driving a robot arm">
+      <g class="ink">
+        <path d="M8 45 q13-13 26 0 q-13 13-26 0 z" />
+        <circle class="pupil" cx="21" cy="45" r="4.5" />
+        <path class="ray" d="M38 45 L86 45" />
+        <path class="arm-a" d="M96 74 L96 50" />
+        <path class="arm-b" d="M96 50 L118 38" />
+        <path class="grip" d="M118 33 L126 30 M118 43 L126 46" />
+        <rect x="88" y="74" width="16" height="6" rx="1.5" />
+        <circle class="joint" cx="96" cy="50" r="2.6" />
+      </g>
+    </svg>
+  </span>
+)}
+
+{id === 'eeg-decode' && (
+  <span class="thumb diagram" data-diagram="eeg-decode">
+    <svg viewBox="0 0 150 90" role="img" aria-label="EEG decoded into a confusion matrix">
+      <g class="ink">
+        <path class="wave w1" d="M6 30 q4-9 8 0 t8 0 t8 0 t8 0 t8 0" />
+        <path class="wave w2" d="M6 60 q4-7 8 0 t8 0 t8 0 t8 0 t8 0" />
+        <path class="link" d="M60 45 L76 45" />
+        <g class="grid">
+          <rect class="c c0" x="84" y="22" width="14" height="14" />
+          <rect class="c c1" x="100" y="22" width="14" height="14" />
+          <rect class="c c2" x="116" y="22" width="14" height="14" />
+          <rect class="c c3" x="84" y="38" width="14" height="14" />
+          <rect class="c c4" x="100" y="38" width="14" height="14" />
+          <rect class="c c5" x="116" y="38" width="14" height="14" />
+          <rect class="c c6" x="84" y="54" width="14" height="14" />
+          <rect class="c c7" x="100" y="54" width="14" height="14" />
+          <rect class="c c8" x="116" y="54" width="14" height="14" />
+        </g>
+      </g>
+    </svg>
+  </span>
+)}
+
+{id === 'gitops-k8s' && (
+  <span class="thumb diagram" data-diagram="gitops-k8s">
+    <svg viewBox="0 0 150 90" role="img" aria-label="Commits flowing through a pipeline into a cluster">
+      <g class="ink">
+        <path class="rail" d="M8 45 L64 45" />
+        <circle class="commit k1" cx="14" cy="45" r="3.2" />
+        <circle class="commit k2" cx="30" cy="45" r="3.2" />
+        <circle class="commit k3" cx="46" cy="45" r="3.2" />
+        <rect x="64" y="34" width="22" height="22" rx="2.5" />
+        <path class="link" d="M86 45 L100 45" />
+        <rect class="pod p1" x="104" y="22" width="15" height="15" rx="2" />
+        <rect class="pod p2" x="124" y="22" width="15" height="15" rx="2" />
+        <rect class="pod p3" x="104" y="53" width="15" height="15" rx="2" />
+        <rect class="pod p4" x="124" y="53" width="15" height="15" rx="2" />
+      </g>
+    </svg>
+  </span>
+)}
+
+{id === 'icub-reward' && (
+  <span class="thumb diagram" data-diagram="icub-reward">
+    <svg viewBox="0 0 150 90" role="img" aria-label="A humanoid platform and a rising reward curve">
+      <g class="ink">
+        <rect x="14" y="24" width="34" height="30" rx="7" />
+        <circle class="eye e1" cx="25" cy="38" r="3.4" />
+        <circle class="eye e2" cx="37" cy="38" r="3.4" />
+        <path d="M31 54 L31 64 M18 70 L44 70 M31 64 L18 70 M31 64 L44 70" />
+        <path class="axis" d="M66 70 L138 70 M66 70 L66 20" />
+        <path class="curve" d="M66 66 q22 2 34-14 t34-22" />
+      </g>
+    </svg>
+  </span>
+)}
