@@ -75,8 +75,10 @@ export const projects: Project[] = [
     // page — VVV13 is the year of the residency.
     href: 'https://vimeo.com/70390713',
     external: true,
-    // Nathaniel's own photographs from the residency, cross-faded: the robot,
-    // him working with it, and the YARP stereo viewers behind it.
+    // 0:40-0:45 of the VVV2013 summer school video by Yoichi Matsuyama, which
+    // the entry links to. The cut ends at 0:45 because 0:47 jumps to unrelated
+    // footage. Nathaniel's own residency photographs are kept in the repo at
+    // public/media/icub-photos.mp4 if the loop should go back to those.
     poster: '/media/icub.jpg',
     video: '/media/icub.mp4',
     meta: 'Italian Institute of Technology · iCub · VVV2013 · C++',
