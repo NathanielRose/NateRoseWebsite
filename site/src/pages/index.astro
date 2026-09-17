@@ -11,23 +11,26 @@ import { getFeed } from '../lib/entries';
 // rather than just the newest blog post.
 const recent = (await getFeed()).slice(0, 5);
 
-// Deiters' 1865 neuron drawing illustrates the human-intelligence column.
-// The file is checked at build time so the figure simply appears once it is
-// dropped in, and nothing 404s while it is absent.
-const HUMAN_FIGURE = '/images/forms/neuron.jpg';
-const hasHumanFigure = fs.existsSync(path.join(process.cwd(), 'public', HUMAN_FIGURE));
+// Historical figures illustrate two of the three columns. Each file is checked
+// at build time, so a figure appears once its file is in place and nothing
+// 404s while one is absent.
+const figureExists = (src?: string) =>
+  Boolean(src) && fs.existsSync(path.join(process.cwd(), 'public', src!));
 
 // The framing, and the career arc behind it, follow Nathaniel's own
 // positioning slide rather than the CV's reverse-chronological job list.
 const forms = [
   {
     name: 'Human intelligence',
-    figure: true,
+    figure: '/images/forms/neuron.png',
+    figureAlt: 'Otto Deiters’ 1865 drawing of a neuron',
     body:
       'Neuroscience and cognitive science. Neural signatures as identity, and the philosophy of agency behind what makes a mind your own.',
   },
   {
     name: 'Artificial intelligence',
+    figure: '/images/forms/perceptron.png',
+    figureAlt: 'An early perceptron diagram: inputs converging through hidden units to three outputs',
     body:
       'Machine learning and the infrastructure it runs on. Model security, and the attack surface that opens when systems read neural data.',
   },
@@ -66,9 +69,11 @@ const forms = [
       <>
         <dt>{f.name}</dt>
         <dd>
-          {f.figure && hasHumanFigure && (
-            <img class="form-figure" src={HUMAN_FIGURE} alt="Otto Deiters’ 1865 drawing of a neuron" loading="lazy" />
-          )}
+          <span class="form-figure-box">
+            {figureExists(f.figure) && (
+              <img class="form-figure" src={f.figure} alt={f.figureAlt} loading="lazy" />
+            )}
+          </span>
           {f.body}
         </dd>
       </>
