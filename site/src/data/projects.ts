@@ -68,7 +68,7 @@ export const projects: Project[] = [
     meta: 'UC Berkeley · CS294-082 · with Eigil Bagger · dCNNs',
     year: '2019',
     desc:
-      'A reproduction of Tayeb et al. on decoding motor imagery from EEG, read through memory-equivalent capacity. The original reports binary accuracies near 95% where the state of the art reaches 85%. The shallow methods do not reproduce at all, and the deep models’ accuracy turns out to come from pairing sliding-window preprocessing with 5-fold cross validation — which puts overlapping windows of the same trial in both the training and test sets.',
+      'A reproduction of Tayeb et al. on decoding motor imagery from EEG, read through memory-equivalent capacity. The shallow methods do not reproduce, and the deep models’ reported 95% accuracy comes from sliding windows and 5-fold cross validation leaving the same trial in both training and test.',
     // Figures lifted from the paper itself: the motor-imagery paradigm, the
     // sliding-window scheme that causes the leak, per-subject accuracies, and
     // accuracy against capacity with and without trial mixing.
@@ -82,7 +82,7 @@ export const projects: Project[] = [
     meta: 'Microsoft · Terraform · Kubernetes · open source',
     year: '2019',
     desc:
-      'Open-source infrastructure orchestration for Kubernetes clusters, built around a GitOps workflow.',
+      'Open-source automation for production Kubernetes clusters. Commits flow through build and high-level-definition pipelines into resource manifests, with Terraform provisioning underneath and a service introspection dashboard tracking each deployment end to end.',
     // Still: the microsoft/bedrock repo card, which is also the loop's first
     // and last frame, so hovering animates the image already on screen rather
     // than cutting to a different one. The loop then runs the GitOps workflow
