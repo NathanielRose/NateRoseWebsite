@@ -75,6 +75,20 @@ export const archived: ArchivedPost[] = [
       'A panel with Brazil’s tech community, convened through Black at Ripple during Nathaniel Rose’s tenure as its president. The piece is credited to Team Ripple and does not name individual organisers.',
   },
   {
+    slug: 'ml-training-and-deployment-pipeline-using-databricks',
+    title: 'ML Training and Deployment Pipeline Using Databricks',
+    publication: 'Ripple Engineering',
+    author: 'Mihir Mavalankar',
+    originalUrl:
+      'https://engineering.ripple.com/ml-training-and-deployment-pipeline-using-databricks/',
+    originalLive: false,
+    archiveUrl:
+      'https://web.archive.org/web/20230331155429/https://engineering.ripple.com/ml-training-and-deployment-pipeline-using-databricks/',
+    date: '2023-03-30',
+    excerpt:
+      'How Ripple managed the machine learning model lifecycle on Databricks: experimentation in notebooks, a feature store, MLflow tracking and a re-training workflow that promotes models through GitLab into Kubernetes.',
+  },
+  {
     slug: 'building-ci-cd-with-airflow-gitlab-and-terraform-in-gcp',
     title: 'Building CI/CD with Airflow, GitLab and Terraform in GCP',
     publication: 'Ripple Engineering',

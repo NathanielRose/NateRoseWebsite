@@ -53,10 +53,10 @@ export async function getFeed(): Promise<FeedRow[]> {
   const mirrors: FeedRow[] = archived.map((a) => ({
     title: a.title,
     href: a.originalLive ? a.originalUrl : `/archive/${a.slug}/`,
-    when: formatDate(new Date(a.date)),
+    when: formatDate(new Date(a.date)) + (a.originalLive ? "" : " · archived"),
     sort: new Date(a.date).valueOf(),
     meta: [a.publication, a.author, a.note].filter(Boolean).join(" · "),
-    badge: a.originalLive ? 'Article' : 'Archived',
+    badge: 'Article',
     external: a.originalLive,
   }));
 

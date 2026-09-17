@@ -38,7 +38,7 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font);
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -68,7 +68,7 @@ main p a:hover,
 h1, h2, h3, h4 { font-weight: 600; line-height: 1.25; }
 h1 { font-size: 27px; margin: 0 0 4px; }
 h2 { font-size: 20px; margin: 40px 0 14px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
-h3 { font-size: 17px; margin: 28px 0 8px; }
+h3 { font-size: 16px; margin: 28px 0 8px; }
 
 /* ---- top navigation ---------------------------------------------------- */
 .nav {
@@ -121,7 +121,7 @@ h3 { font-size: 17px; margin: 28px 0 8px; }
   font-size: 13px;
   letter-spacing: -0.005em;
 }
-.entry-desc { margin: 4px 0 0; font-size: 15px; }
+.entry-desc { margin: 4px 0 0; font-size: 14.5px; }
 
 .badge {
   display: inline-block;
@@ -157,7 +157,7 @@ h3 { font-size: 17px; margin: 28px 0 8px; }
 .thumb.is-playing video { opacity: 1; }
 
 /* ---- prose ------------------------------------------------------------- */
-.prose { font-size: 17px; }
+.prose { font-size: 16px; }
 .prose img { max-width: 100%; height: auto; }
 .prose pre {
   overflow-x: auto;
@@ -370,7 +370,6 @@ footer.site {
 .badge[data-badge="Podcast"]     { background: #efe7f7; color: #4e3170; }
 .badge[data-badge="Substack"]    { background: #fce6dc; color: #8b3a17; }
 .badge[data-badge="Blog"]        { background: #ececec; color: #4a4a4a; }
-.badge[data-badge="Archived"]    { background: #eae7e1; color: #5c5346; }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .badge[data-badge="Paper"]       { background: #222b45; color: #a8bdf0; }
@@ -379,7 +378,6 @@ footer.site {
   :root:not([data-theme="light"]) .badge[data-badge="Podcast"]     { background: #2a2137; color: #c3a9e4; }
   :root:not([data-theme="light"]) .badge[data-badge="Substack"]    { background: #37231a; color: #e3a98c; }
   :root:not([data-theme="light"]) .badge[data-badge="Blog"]        { background: #2a2a2e; color: #a6a6a6; }
-  :root:not([data-theme="light"]) .badge[data-badge="Archived"]    { background: #2e2a24; color: #bdb09c; }
 }
 
 /* ---- other interests --------------------------------------------------- */
@@ -422,7 +420,7 @@ h1 .badge { vertical-align: 6px; }
 .forms.cols dt { margin-top: 0; grid-row: 1; text-align: center; }
 .forms.cols dd {
   grid-row: 2;
-  font-size: 15.5px;
+  font-size: 15px;
   line-height: 1.5;
   text-align: center;
 }
