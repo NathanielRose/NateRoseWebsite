@@ -1,4 +1,6 @@
 ---
+import fs from 'node:fs';
+import path from 'node:path';
 import Base from '../layouts/Base.astro';
 import Entry from '../components/Entry.astro';
 import Interests from '../components/Interests.astro';
@@ -9,11 +11,18 @@ import { getFeed } from '../lib/entries';
 // rather than just the newest blog post.
 const recent = (await getFeed()).slice(0, 5);
 
+// Deiters' 1865 neuron drawing illustrates the human-intelligence column.
+// The file is checked at build time so the figure simply appears once it is
+// dropped in, and nothing 404s while it is absent.
+const HUMAN_FIGURE = '/images/forms/neuron.jpg';
+const hasHumanFigure = fs.existsSync(path.join(process.cwd(), 'public', HUMAN_FIGURE));
+
 // The framing, and the career arc behind it, follow Nathaniel's own
 // positioning slide rather than the CV's reverse-chronological job list.
 const forms = [
   {
     name: 'Human intelligence',
+    figure: true,
     body:
       'Neuroscience and cognitive science. Neural signatures as identity, and the philosophy of agency behind what makes a mind your own.',
   },
@@ -25,7 +34,7 @@ const forms = [
   {
     name: 'Systemic intelligence',
     body:
-      'How institutions and groups think — the collective intelligence that emerges between people rather than inside any one of them. Education policy, standardization, and governance, because standards decide who neurotech is safe for.',
+      'How institutions and groups think — the collective intelligence that emerges between people rather than inside any one of them. Education policy, standardization, and governance.',
   },
 ];
 ---
@@ -56,7 +65,12 @@ const forms = [
     {forms.map((f) => (
       <>
         <dt>{f.name}</dt>
-        <dd>{f.body}</dd>
+        <dd>
+          {f.figure && hasHumanFigure && (
+            <img class="form-figure" src={HUMAN_FIGURE} alt="Otto Deiters’ 1865 drawing of a neuron" loading="lazy" />
+          )}
+          {f.body}
+        </dd>
       </>
     ))}
   </dl>

@@ -452,5 +452,26 @@ h1 .badge { vertical-align: 6px; }
 .interests { margin-top: 8px; }
 
 /* Citation rows sit a step below body copy: the list is scanned, not read. */
-.entry.compact .entry-title { font-size: 15.5px; }
+/* Sized so the longest title still shares a line with its badge; the badge
+   never breaks away on its own. */
+.entry.compact .entry-title { font-size: 14.5px; }
+.entry.compact .badge { white-space: nowrap; }
 .entry.compact .entry-meta { font-size: 12.5px; }
+
+/* ---- figure inside a "three forms" column ------------------------------ */
+.form-figure {
+  display: block;
+  max-width: 100%;
+  max-height: 190px;
+  width: auto;
+  margin: 0 0 10px;
+  mix-blend-mode: multiply;
+}
+/* An ink drawing on white needs inverting against the dark palette, or it
+   becomes black lines on a near-black page. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .form-figure {
+    filter: invert(1);
+    mix-blend-mode: normal;
+  }
+}
