@@ -75,10 +75,11 @@ export const projects: Project[] = [
     // page — VVV13 is the year of the residency.
     href: 'https://vimeo.com/70390713',
     external: true,
-    // 0:40-0:45 of the VVV2013 summer school video by Yoichi Matsuyama, which
-    // the entry links to. The cut ends at 0:45 because 0:47 jumps to unrelated
-    // footage. Nathaniel's own residency photographs are kept in the repo at
-    // public/media/icub-photos.mp4 if the loop should go back to those.
+    // Still: Nathaniel's own photograph from the residency. Hover: 0:40.8-0:45
+    // of the VVV2013 summer school video by Yoichi Matsuyama, which the entry
+    // links to. The in-point skips the shot of attendees at 0:40-0:40.75, and
+    // the out-point is fixed because 0:47 jumps to unrelated footage. The
+    // photo-only loop is kept at public/media/icub-photos.mp4.
     poster: '/media/icub.jpg',
     video: '/media/icub.mp4',
     meta: 'Italian Institute of Technology · iCub · VVV2013 · C++',
