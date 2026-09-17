@@ -10,6 +10,11 @@
   --badge-fg: #555;
   --font: "Newsreader", Georgia, "Times New Roman", serif;
   /* Technical metadata — dates, stacks, venues — is set in mono. */
+  --sea: #156d91;
+  --sea-deep: #034963;
+  --sea-light: #4287b0;
+  --stone: #6d7377;
+  --stone-light: #a9b0bc;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
@@ -92,8 +97,8 @@ h3 { font-size: 17px; margin: 28px 0 8px; }
 }
 .identity picture { flex-shrink: 0; display: block; }
 .identity img {
-  width: 150px;
-  height: 150px;
+  width: 172px;
+  height: 172px;
   border-radius: 6px;
   object-fit: cover;
   flex-shrink: 0;

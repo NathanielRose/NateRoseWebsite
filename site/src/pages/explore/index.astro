@@ -1,0 +1,165 @@
+---
+// TEMPORARY exploration page — delete once a background and favicon are chosen.
+// Every option uses only the sea/stone palette sampled from cinqueterre.jpg,
+// the hero photograph from the old Jekyll site.
+const backgrounds = [
+  {
+    id: 'none',
+    name: 'A — None (current)',
+    note: 'The baseline. Worth judging the others against, not assuming they improve on it.',
+  },
+  {
+    id: 'rule',
+    name: 'B — Sea rule',
+    note: 'A 3px gradient bar across the very top, sea deep to stone. Adds colour without adding a picture.',
+  },
+  {
+    id: 'trace',
+    name: 'C — EEG trace',
+    note: 'A faint waveform along the top edge. Thematic — it is the signal you actually work on.',
+  },
+  {
+    id: 'dendrite',
+    name: 'D — Dendrite corner',
+    note: 'Branching lines in the top-right, echoing the Deiters neuron in the human-intelligence column.',
+  },
+  {
+    id: 'dots',
+    name: 'E — Stone grid',
+    note: 'A sparse dot field in stone grey. Neutral texture; reads as paper rather than as a motif.',
+  },
+];
+
+const favicons = [
+  { id: 'monogram', name: 'NR monogram', note: 'Newsreader serif, sea blue on white.' },
+  { id: 'initial', name: 'N', note: 'Single letter — survives 16px better than two.' },
+  { id: 'soma', name: 'Soma', note: 'Cell body with radiating processes. Ties to the neuron figure.' },
+  { id: 'wave', name: 'Trace', note: 'A single EEG-like waveform.' },
+  { id: 'node', name: 'Node', note: 'One filled node with three edges — the sociogram, reduced.' },
+  { id: 'tide', name: 'Tide', note: 'Concentric arcs. Reads as sea, abstract at any size.' },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Background and favicon exploration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
+    <style>
+      :root {
+        --sea: #156d91; --sea-deep: #034963; --sea-light: #4287b0;
+        --stone: #6d7377; --stone-light: #a9b0bc;
+        --fg: #1a1a1a; --muted: #6b6b6b; --rule: #e6e6e6;
+        --serif: "Newsreader", Georgia, serif;
+        --mono: "IBM Plex Mono", monospace;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #fff; color: var(--fg); font-family: var(--serif); }
+      .page { max-width: 880px; margin: 0 auto; padding: 28px 16px 80px; }
+      h1.top { font-size: 24px; margin: 0 0 6px; }
+      .lede { font-family: var(--mono); font-size: 13px; color: var(--muted); margin: 0 0 34px; }
+      h2.group {
+        font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+        color: var(--muted); margin: 46px 0 0; padding-bottom: 8px; border-bottom: 2px solid var(--rule);
+      }
+      .opt { margin-top: 30px; }
+      .opt .label { font-family: var(--mono); font-size: 12.5px; font-weight: 500; }
+      .opt .why { font-family: var(--mono); font-size: 11.5px; color: var(--muted); margin: 4px 0 10px; }
+
+      /* Each sample is a miniature of the real page header. */
+      .sample {
+        position: relative; overflow: hidden;
+        border: 1px solid var(--rule); border-radius: 5px;
+        padding: 26px 30px 30px; background: #fff;
+      }
+      .sample h3 { font-size: 22px; margin: 0 0 3px; font-weight: 600; }
+      .sample .tag { font-weight: 600; font-size: 14px; margin: 0 0 3px; }
+      .sample .contact { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+      .sample p.body { font-size: 15px; line-height: 1.55; margin: 16px 0 0; max-width: 62ch; }
+
+      /* ---- B: sea rule ---- */
+      .bg-rule::before {
+        content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+        background: linear-gradient(90deg, var(--sea-deep), var(--sea), var(--stone-light));
+      }
+      /* ---- C: EEG trace ---- */
+      .bg-trace::before {
+        content: ""; position: absolute; top: 0; left: 0; right: 0; height: 46px;
+        background-repeat: repeat-x; background-size: 240px 46px; opacity: .5;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='46'><path d='M0 30 q10-14 20 0 t18 2 q8-20 16 0 t14 6 q12-26 22 0 t16-2 q9-16 18 4 t16-2 q11-12 20 6 t20-4 q10-10 20 2 t20 0' fill='none' stroke='%23156d91' stroke-width='1.2'/></svg>");
+      }
+      /* ---- D: dendrite corner ---- */
+      .bg-dendrite::before {
+        content: ""; position: absolute; top: -20px; right: -20px; width: 230px; height: 200px;
+        opacity: .42;
+        background-repeat: no-repeat; background-size: contain;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='230' height='200'><g fill='none' stroke='%234287b0' stroke-width='1.3' stroke-linecap='round'><path d='M210 160 L176 120 L150 76 M176 120 L132 108 M150 76 L158 34 M150 76 L112 58 M112 58 L74 52 M112 58 L104 22 M132 108 L96 118 M96 118 L62 138 M96 118 L70 96'/><circle cx='210' cy='160' r='6' fill='%234287b0' stroke='none'/></g></svg>");
+      }
+      /* ---- E: stone grid ---- */
+      .bg-dots::before {
+        content: ""; position: absolute; inset: 0; opacity: .5;
+        background-image: radial-gradient(var(--stone-light) 1px, transparent 1px);
+        background-size: 22px 22px;
+      }
+      .sample > * { position: relative; }
+
+      /* ---- favicons ---- */
+      .fav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 22px; }
+      .fav { border: 1px solid var(--rule); border-radius: 5px; padding: 16px; text-align: center; }
+      .fav .big { width: 96px; height: 96px; }
+      .fav .row { display: flex; gap: 14px; align-items: flex-end; justify-content: center; margin-top: 12px; }
+      .fav .row img, .fav .row svg { image-rendering: auto; }
+      .fav .name { font-family: var(--mono); font-size: 12px; margin-top: 10px; font-weight: 500; }
+      .fav .why { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 3px; }
+      .sz { font-family: var(--mono); font-size: 9px; color: var(--muted); display: block; margin-top: 3px; }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <h1 class="top">Background and favicon exploration</h1>
+      <p class="lede">
+        Palette sampled from cinqueterre.jpg — the hero photo on the old site.
+        Sea #156d91 / #034963 / #4287b0, stone #6d7377 / #a9b0bc.
+      </p>
+
+      <h2 class="group">Background accent</h2>
+      {backgrounds.map((b) => (
+        <div class="opt">
+          <div class="label">{b.name}</div>
+          <div class="why">{b.note}</div>
+          <div class:list={['sample', b.id !== 'none' && `bg-${b.id}`]}>
+            <h3>Nathaniel Rose</h3>
+            <p class="tag">Software Engineer | Neurotechnology | Machine Learning</p>
+            <div class="contact">NYC / Oakland / London · nate@naterose.io [cv]</div>
+            <p class="body">
+              I'm currently working on neurotechnology, cognitive security, neurosecurity
+              and computational models. I'm interested in developing novel standards and
+              architectures that enable new thinking systems.
+            </p>
+          </div>
+        </div>
+      ))}
+
+      <h2 class="group">Favicon</h2>
+      <div class="fav-grid">
+        {favicons.map((f) => (
+          <div class="fav">
+            <img class="big" src={`/favicons/${f.id}.svg`} alt={f.name} />
+            <div class="row">
+              <span><img src={`/favicons/${f.id}.svg`} width="32" height="32" alt="" /><span class="sz">32</span></span>
+              <span><img src={`/favicons/${f.id}.svg`} width="16" height="16" alt="" /><span class="sz">16</span></span>
+            </div>
+            <div class="name">{f.name}</div>
+            <div class="why">{f.note}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </body>
+</html>
