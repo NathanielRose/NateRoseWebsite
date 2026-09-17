@@ -1,0 +1,21 @@
+# The Astro site lives in site/; the Jekyll files remain in the repo root, so
+# the build is pointed explicitly rather than left to auto-detection — which
+# would otherwise find the Gemfile and try to build the old Ruby site.
+[build]
+  base = "site"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Astro 7 requires Node 18.20.8+ / 20.3+ / 22+.
+  NODE_VERSION = "22"
+
+[[headers]]
+  for = "/media/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
