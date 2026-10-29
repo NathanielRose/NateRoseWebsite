@@ -55,6 +55,8 @@ export const projects: Project[] = [
   },
   {
     title: 'Enhanced VR & BMI Robot',
+    href: 'https://github.com/NathanielRose/enhanced-vr',
+    external: true,
     meta: 'Imperial College London · Brain and Behavior Lab · Prof. Aldo Faisal',
     year: '2021',
     desc:
